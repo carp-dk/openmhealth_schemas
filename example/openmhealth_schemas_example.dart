@@ -12,15 +12,15 @@ void main() {
           unit: BloodPressureUnit.MM_OF_MERCURY, value: 80.0),
       positionDuringMeasurement: PositionDuringMeasurement.SITTING);
 
-  DateTime start = new DateTime(2016, 2, 5);
-  DateTime end = new DateTime(2016, 6, 5);
-  TimeInterval time = new TimeInterval(startDateTime: start, endDateTime: end);
-  bp.effectiveTimeFrame = new TimeFrame(timeInterval: time);
+  DateTime start = DateTime(2016, 2, 5);
+  DateTime end = DateTime(2016, 6, 5);
+  TimeInterval time = TimeInterval(startDateTime: start, endDateTime: end);
+  bp.effectiveTimeFrame = TimeFrame(timeInterval: time);
   bp.descriptiveStatistic = DescriptiveStatistic.MAXIMUM;
 
   // Now convert this to JSON
   final bp_json = _encode(bp);
-  print("\nBloodPressure:\n" + bp_json);
+  print("\nBloodPressure:\n$bp_json");
 
   // Similarly - create a [Geoposition] object, convert it to JSON and print it.
   Geoposition position = Geoposition(
@@ -31,35 +31,31 @@ void main() {
       elevation: LengthUnitValue((LengthUnit.METER), 1548.5));
 
   position.positioningSystem = PositioningSystem.GPS;
-  position.effectiveTimeFrame = new TimeFrame(dateTime: DateTime.now());
-  print("\nGeoposition:\n" + _encode(position));
+  position.effectiveTimeFrame = TimeFrame(dateTime: DateTime.now());
+  print("\nGeoposition:\n${_encode(position)}");
 
   //Creating OMH data point ready to be uploaded to an OMH sever
 
   //First, the data point for the blood pressure measure.
-  DataPoint dp_1 = new DataPoint(body: bp);
-  print("\nDataPoint_BloodPressure:\n" + _encode(dp_1));
+  DataPoint dp_1 = DataPoint(body: bp);
+  print("\nDataPoint_BloodPressure:\n${_encode(dp_1)}");
 
   // Then the data point for the geo position measure.
-  DataPoint dp_2 = new DataPoint(
+  DataPoint dp_2 = DataPoint(
     body: position,
     userId: "bardram",
-    provenance: new DataPointAcquisitionProvenance(
+    provenance: DataPointAcquisitionProvenance(
         sourceName: "Android Nexus Phone", modality: DataPointModality.SENSED),
   );
 
-  print("\nDataPoint_Geoposition:\n" + _encode(dp_2));
+  print("\nDataPoint_Geoposition:\n${_encode(dp_2)}");
 
   //Finally, read a JSON string and convert it into a Flutter object.
   final act_1 =
       PhysicalActivity.fromJson(json.decode(omh_pa) as Map<String, dynamic>);
 
-  print("\nA person has been " +
-      act_1.activityName +
-      " " +
-      act_1.distance.value.toString() +
-      " " +
-      act_1.distance.unit);
+  print(
+      "\nA person has been ${act_1.activityName} ${act_1.distance?.value} ${act_1.distance?.unit}");
 }
 
 String _encode(Object object) =>
@@ -67,5 +63,5 @@ String _encode(Object object) =>
 
 // The following data is various OMH JSON examples from the OMH website.
 // Testing if we can load these.
-final String omh_pa =
+const String omh_pa =
     '{    "activity_name": "walking", "distance": { "value": 3.1, "unit": "mi" }, "effective_time_frame": { "time_interval": { "start_date_time": "2015-02-06T06:25:00Z", "end_date_time": "2015-02-06T07:25:00Z" } },"kcal_burned": {"value": 160,"unit": "kcal"},"met_value": 3.5}';
