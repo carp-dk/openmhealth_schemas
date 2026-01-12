@@ -1,3 +1,7 @@
+## 0.3.1
+
+- fix of error when schema version do not have a qualifier part.
+
 ## 0.3.0
 
 - update of uuid package

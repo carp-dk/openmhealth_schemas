@@ -114,9 +114,9 @@ class SchemaVersion implements Comparable<SchemaVersion> {
 
   SchemaVersion.fromString(String version) {
     var l = version.split('.');
-    major = int.parse(l[0]);
-    minor = int.parse(l[1]);
-    qualifier = l[2];
+    major = l.isNotEmpty ? int.parse(l[0]) : 1;
+    minor = l.length > 1 ? int.parse(l[1]) : 0;
+    if (l.length > 2) qualifier = l[2];
   }
 
   factory SchemaVersion.fromJson(Map<String, dynamic> json) =>
@@ -131,7 +131,7 @@ class SchemaVersion implements Comparable<SchemaVersion> {
     //return version == null || VERSION_PATTERN.matcher(version).matches();
   }
 
-  /// Compares this [ShemaVersion] to another.
+  /// Compares this [SchemaVersion] to another.
   ///
   /// Returns a negative integer if [this] is a older version than [other],
   /// a positive integer if [this] a newer version than [other]
