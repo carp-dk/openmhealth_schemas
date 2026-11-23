@@ -68,6 +68,7 @@ PhysicalActivity _$PhysicalActivityFromJson(Map<String, dynamic> json) =>
                 PhysicalActivity._readKcalBurned(json, 'kcal_burned')
                     as Map<String, dynamic>,
               ),
+        metValue: (json['met_value'] as num?)?.toDouble(),
       )
       ..effectiveTimeFrame = json['effective_time_frame'] == null
           ? null
@@ -83,6 +84,7 @@ Map<String, dynamic> _$PhysicalActivityToJson(PhysicalActivity instance) =>
       'descriptive_statistic': ?instance.descriptiveStatistic,
       'user_notes': ?instance.userNotes,
       'activity_name': instance.activityName,
+      'met_value': ?instance.metValue,
       'distance': ?instance.distance,
       'reported_activity_intensity': ?instance.reportedActivityIntensity,
       'kcal_burned': ?instance.caloriesBurned,
@@ -99,7 +101,7 @@ Map<String, dynamic> _$KcalUnitValueToJson(KcalUnitValue instance) =>
 
 StepCount _$StepCountFromJson(Map<String, dynamic> json) =>
     StepCount(
-        stepCount: (json['step_count'] as num).toInt(),
+        stepCount: StepCount._stepCountFromJson(json['step_count']),
         descriptiveStatisticDenominator:
             json['descriptive_statistic_denominator'] as String?,
       )
@@ -115,7 +117,7 @@ Map<String, dynamic> _$StepCountToJson(StepCount instance) => <String, dynamic>{
   'effective_time_frame': ?instance.effectiveTimeFrame,
   'descriptive_statistic': ?instance.descriptiveStatistic,
   'user_notes': ?instance.userNotes,
-  'step_count': instance.stepCount,
+  'step_count': StepCount._stepCountToJson(instance.stepCount),
   'descriptive_statistic_denominator':
       ?instance.descriptiveStatisticDenominator,
 };
@@ -182,7 +184,10 @@ BloodPressure _$BloodPressureFromJson(Map<String, dynamic> json) =>
           json['diastolic_blood_pressure'] as Map<String, dynamic>,
         ),
         positionDuringMeasurement:
-            json['position_during_measurement'] as String?,
+            BloodPressure._readBodyPosture(json, 'body_posture') as String?,
+        measurementLocation: json['measurement_location'] as String?,
+        temporalRelationshipToPhysicalActivity:
+            json['temporal_relationship_to_physical_activity'] as String?,
       )
       ..effectiveTimeFrame = json['effective_time_frame'] == null
           ? null
@@ -199,7 +204,10 @@ Map<String, dynamic> _$BloodPressureToJson(BloodPressure instance) =>
       'user_notes': ?instance.userNotes,
       'systolic_blood_pressure': instance.systolicBloodPressure,
       'diastolic_blood_pressure': instance.diastolicBloodPressure,
-      'position_during_measurement': ?instance.positionDuringMeasurement,
+      'body_posture': ?instance.positionDuringMeasurement,
+      'measurement_location': ?instance.measurementLocation,
+      'temporal_relationship_to_physical_activity':
+          ?instance.temporalRelationshipToPhysicalActivity,
     };
 
 SystolicBloodPressure _$SystolicBloodPressureFromJson(
@@ -335,13 +343,21 @@ DataPointAcquisitionProvenance _$DataPointAcquisitionProvenanceFromJson(
   sourceCreationDateTime: json['source_creation_date_time'] == null
       ? null
       : DateTime.parse(json['source_creation_date_time'] as String),
+  sourceDataPointId: json['source_data_point_id'] as String?,
+  sourceLastModificationDateTime:
+      json['source_last_modification_date_time'] == null
+      ? null
+      : DateTime.parse(json['source_last_modification_date_time'] as String),
 );
 
 Map<String, dynamic> _$DataPointAcquisitionProvenanceToJson(
   DataPointAcquisitionProvenance instance,
 ) => <String, dynamic>{
   'source_name': instance.sourceName,
+  'source_data_point_id': ?instance.sourceDataPointId,
   'source_creation_date_time': ?instance.sourceCreationDateTime
+      ?.toIso8601String(),
+  'source_last_modification_date_time': ?instance.sourceLastModificationDateTime
       ?.toIso8601String(),
   'modality': ?instance.modality,
 };
@@ -363,6 +379,10 @@ Geoposition _$GeopositionFromJson(Map<String, dynamic> json) =>
             ?.toInt(),
         numberOfSatellitesInFix: (json['number_of_satellites_in_fix'] as num?)
             ?.toInt(),
+        satelliteSignalStrengths:
+            (json['satellite_signal_strengths'] as List<dynamic>?)
+                ?.map((e) => UnitValue.fromJson(e as Map<String, dynamic>))
+                .toList(),
         positioningSystem: json['positioning_system'] as String?,
       )
       ..effectiveTimeFrame = json['effective_time_frame'] == null
@@ -383,6 +403,7 @@ Map<String, dynamic> _$GeopositionToJson(Geoposition instance) =>
       'elevation': ?instance.elevation,
       'number_of_satellites_in_view': ?instance.numberOfSatellitesInView,
       'number_of_satellites_in_fix': ?instance.numberOfSatellitesInFix,
+      'satellite_signal_strengths': ?instance.satelliteSignalStrengths,
       'positioning_system': ?instance.positioningSystem,
     };
 
@@ -416,12 +437,14 @@ SchemaId _$SchemaIdFromJson(Map<String, dynamic> json) => SchemaId(
   namespace: json['namespace'] as String,
   name: json['name'] as String,
   version: json['version'] as String,
+  url: json['url'] as String?,
 );
 
 Map<String, dynamic> _$SchemaIdToJson(SchemaId instance) => <String, dynamic>{
   'namespace': instance.namespace,
   'name': instance.name,
   'version': instance.version,
+  'url': ?instance.url,
 };
 
 SchemaVersion _$SchemaVersionFromJson(Map<String, dynamic> json) =>

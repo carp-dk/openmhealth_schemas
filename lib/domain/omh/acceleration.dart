@@ -2,12 +2,12 @@ part of '../../openmhealth_schemas.dart';
 
 /// This schema represents accelerometer measurements.
 ///
-/// OMH version 1.0
+/// OMH version 2.0
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_acceleration">acceleration</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class Acceleration extends Measure {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.ACCELERATION, SchemaVersion.V1_0);
+      SchemaSupport.ACCELERATION, SchemaVersion.V2_0);
 
   AccelerationUnitValue acceleration_x;
   AccelerationUnitValue acceleration_y;
@@ -32,12 +32,12 @@ class Acceleration extends Measure {
   }
 }
 
-/// OMH version 1.0
+/// OMH version 1.1
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_acceleration-unit-value">acceleration-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class AccelerationUnitValue extends UnitValue {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      'acceleration-unit-value', SchemaVersion.V1_0);
+      'acceleration-unit-value', SchemaVersion.V1_1);
 
   AccelerationUnitValue({
     required String unit,
@@ -65,7 +65,7 @@ class AccelerationUnit extends Unit {
 
 /// A location on the body. Values from the Anatomical or acquired body structure hierarchy of SNOMED can be added as needed.
 ///
-/// OMH version 1.0
+/// OMH version 1.1
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_body-location">body-location</a>
 class BodyLocation {
   static const String LEFT_ANKLE = 'left ankle';

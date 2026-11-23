@@ -44,27 +44,38 @@ abstract class SchemaEnumValue {
 /// a single, immutable schema. The namespace is used to avoid naming collisions in schemas written by different groups
 /// or organisations.
 ///
-/// Version 1.0
+/// OMH version 1.1
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_schema-id">schema-id</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SchemaId extends Object implements SchemaSupport, Comparable<SchemaId> {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.OMH_NAMESPACE,
     'schema-id',
-    SchemaVersion(major: 1, minor: 0),
+    SchemaVersion.V1_1,
   );
 
   final String namespace;
   final String name;
   final String version;
 
+  /// An optional URL of the schema (OMH 1.1).
+  final String? url;
+
   @JsonKey(ignore: true)
   final SchemaVersion schemaVersion;
 
-  SchemaId({required this.namespace, required this.name, required this.version})
-    : schemaVersion = SchemaVersion.fromString(version);
-  SchemaId.withVersion(this.namespace, this.name, this.schemaVersion)
-    : version = schemaVersion.toString();
+  SchemaId({
+    required this.namespace,
+    required this.name,
+    required this.version,
+    this.url,
+  }) : schemaVersion = SchemaVersion.fromString(version);
+  SchemaId.withVersion(
+    this.namespace,
+    this.name,
+    this.schemaVersion, {
+    this.url,
+  }) : version = schemaVersion.toString();
 
   factory SchemaId.fromJson(Map<String, dynamic> json) =>
       _$SchemaIdFromJson(json);
@@ -96,7 +107,11 @@ class SchemaVersion implements Comparable<SchemaVersion> {
   //final Pattern VERSION_PATTERN = Pattern.compile(VERSION_PATTERN_STRING);
 
   static SchemaVersion V1_0 = SchemaVersion(major: 1, minor: 0);
+  static SchemaVersion V1_1 = SchemaVersion(major: 1, minor: 1);
+  static SchemaVersion V1_2 = SchemaVersion(major: 1, minor: 2);
   static SchemaVersion V2_0 = SchemaVersion(major: 2, minor: 0);
+  static SchemaVersion V3_0 = SchemaVersion(major: 3, minor: 0);
+  static SchemaVersion V4_0 = SchemaVersion(major: 4, minor: 0);
 
   int major = 1;
   int minor = 0;

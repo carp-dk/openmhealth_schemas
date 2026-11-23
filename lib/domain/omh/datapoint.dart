@@ -39,12 +39,12 @@ class DataPoint implements SchemaSupport {
 
 /// The header of a data point
 ///
-/// OMH version 1.1
+/// OMH version 1.2
 /// See  @see <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_header">header</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DataPointHeader implements SchemaSupport {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE, 'header', SchemaVersion.V1_0);
+      SchemaSupport.OMH_NAMESPACE, 'header', SchemaVersion.V1_2);
 
   String id;
   DateTime creationDateTime;
@@ -74,12 +74,24 @@ class DataPointHeader implements SchemaSupport {
 
 /// The acquisition provenance of a data point, representing how and when the data point was acquired.
 ///
-/// OMH version 1.0
+/// OMH version 1.2
 /// See  @see <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_header">header</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DataPointAcquisitionProvenance {
+  /// The name of the source of the data.
   String sourceName;
+
+  /// The identifier of the data point at the source.
+  String? sourceDataPointId;
+
+  /// The date time (timestamp) of data creation at the source.
   DateTime? sourceCreationDateTime;
+
+  /// The date time (timestamp) of the last modification of the data at the
+  /// source.
+  DateTime? sourceLastModificationDateTime;
+
+  /// The modality whereby the measure is obtained. See [DataPointModality].
   String? modality;
 
   /// Creates a [DataPointAcquisitionProvenance]. The [sourceName] is required according to the OMH definition.
@@ -87,6 +99,8 @@ class DataPointAcquisitionProvenance {
     required this.sourceName,
     this.modality,
     this.sourceCreationDateTime,
+    this.sourceDataPointId,
+    this.sourceLastModificationDateTime,
   });
 
   factory DataPointAcquisitionProvenance.fromJson(Map<String, dynamic> json) =>

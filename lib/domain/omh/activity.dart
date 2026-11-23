@@ -8,9 +8,12 @@ part of '../../openmhealth_schemas.dart';
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class PhysicalActivity extends Measure {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE, SchemaSupport.ACTIVITY, SchemaVersion.V1_0);
+      SchemaSupport.OMH_NAMESPACE, SchemaSupport.ACTIVITY, SchemaVersion.V1_2);
 
   String activityName;
+
+  /// The Metabolic Equivalent of Task (MET) value for the activity.
+  double? metValue;
   LengthUnitValue? distance;
   String? reportedActivityIntensity;
 
@@ -32,6 +35,7 @@ class PhysicalActivity extends Measure {
     this.distance,
     this.reportedActivityIntensity,
     this.caloriesBurned,
+    this.metValue,
   });
 
   factory PhysicalActivity.fromJson(Map<String, dynamic> json) =>
@@ -88,14 +92,29 @@ class KcalUnitValue extends UnitValue {
 
 /// This schema represents [number of steps](http://bioportal.bioontology.org/ontologies/LOINC?p=classes&conceptid=55423-8).
 ///
-/// OMH version 2.0
+/// OMH version 3.0
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_step-count">step-count</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class StepCount extends Measure {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.STEP_COUNT, SchemaVersion.V2_0);
+      SchemaSupport.STEP_COUNT, SchemaVersion.V3_0);
 
+  /// The number of steps.
+  ///
+  /// In OMH 3.0, this is serialized as a unit value, e.g.
+  /// `{"value": 7939, "unit": "steps"}`. For backward compatibility, the plain
+  /// number used in OMH 2.0 is also accepted when reading JSON.
+  @JsonKey(fromJson: _stepCountFromJson, toJson: _stepCountToJson)
   int stepCount;
+
+  static int _stepCountFromJson(Object? json) => switch (json) {
+    num n => n.toInt(),
+    {'value': num n} => n.toInt(),
+    _ => throw FormatException('Invalid step_count: $json'),
+  };
+
+  static Map<String, dynamic> _stepCountToJson(int stepCount) =>
+      {'value': stepCount, 'unit': StepCountUnit.STEPS};
   String? descriptiveStatisticDenominator;
 
   /// Creates a [StepCount]. The [stepCount] is required according to the OMH definition.
@@ -114,14 +133,24 @@ class StepCount extends Measure {
   SchemaId getSchemaId() => SCHEMA_ID;
 }
 
+/// The unit of a [StepCount].
+///
+/// OMH version 3.0
+/// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_step-count">step-count</a>
+class StepCountUnit extends Unit {
+  static const String STEPS = 'steps';
+
+  StepCountUnit(super.schemaValue);
+}
+
 /// This schema represents the amount of [calories burned](http://bioportal.bioontology.org/ontologies/LOINC?p=classes&conceptid=41981-2) in kilocalories (kcal).
 ///
-/// OMH version 1.0
+/// OMH version 3.0
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_calories-burned">calories-burned</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class CaloriesBurned extends Measure {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE, SchemaSupport.CALORIES, SchemaVersion.V1_0);
+      SchemaSupport.OMH_NAMESPACE, SchemaSupport.CALORIES, SchemaVersion.V3_0);
 
   KcalUnitValue kcalBurned;
   String? activityName;

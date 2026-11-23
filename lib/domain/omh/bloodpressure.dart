@@ -4,22 +4,43 @@ part of '../../openmhealth_schemas.dart';
 /// and whether the patient was lying down, sitting, or standing when the blood pressure was obtained.
 /// This schema can be used for either a single blood pressure measurement, or for basic descriptive statistics (see the [DescriptiveStatistic] schema).
 ///
-/// OMH version 1.0
+/// OMH version 4.0
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_blood-pressure">blood-pressure</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class BloodPressure extends Measure {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.BLOOD_PRESSURE, SchemaVersion.V1_0);
+      SchemaSupport.BLOOD_PRESSURE, SchemaVersion.V4_0);
 
   SystolicBloodPressure systolicBloodPressure;
   DiastolicBloodPressure diastolicBloodPressure;
+
+  /// The body posture of the subject during the measurement.
+  /// See [PositionDuringMeasurement].
+  ///
+  /// In OMH 4.0, this is serialized as `body_posture`. For backward
+  /// compatibility, `position_during_measurement` (OMH 1.0) is also accepted
+  /// when reading JSON.
+  @JsonKey(name: 'body_posture', readValue: _readBodyPosture)
   String? positionDuringMeasurement;
+
+  /// The location on the body where the measurement was taken.
+  /// See [BodyLocation].
+  String? measurementLocation;
+
+  /// The temporal relationship of the measurement to physical activity.
+  /// See [TemporalRelationshipToPhysicalActivity].
+  String? temporalRelationshipToPhysicalActivity;
+
+  static Object? _readBodyPosture(Map<dynamic, dynamic> json, String key) =>
+      json[key] ?? json['position_during_measurement'];
 
   /// Creates a [BloodPressure]. The [systolicBloodPressure] and [diastolicBloodPressure] are required according to the OMH definition.
   BloodPressure({
     required this.systolicBloodPressure,
     required this.diastolicBloodPressure,
     this.positionDuringMeasurement,
+    this.measurementLocation,
+    this.temporalRelationshipToPhysicalActivity,
   });
 
   factory BloodPressure.fromJson(Map<String, dynamic> json) =>
@@ -32,12 +53,12 @@ class BloodPressure extends Measure {
   SchemaId getSchemaId() => SCHEMA_ID;
 }
 
-/// OMH version 1.0
+/// OMH version 1.1
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_systolic-blood-pressure">systolic-blood-pressure</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SystolicBloodPressure extends UnitValue {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.SYSTOLIC_BLOOD_PRESSURE, SchemaVersion.V1_0);
+      SchemaSupport.SYSTOLIC_BLOOD_PRESSURE, SchemaVersion.V1_1);
 
   SystolicBloodPressure({
     required String unit,
@@ -54,12 +75,12 @@ class SystolicBloodPressure extends UnitValue {
   SchemaId getSchemaId() => SCHEMA_ID;
 }
 
-/// OMH version 1.0
+/// OMH version 1.1
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_diastolic-blood-pressure">diastolic-blood-pressure</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DiastolicBloodPressure extends UnitValue {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.DIASTOLIC_BLOOD_PRESSURE, SchemaVersion.V1_0);
+      SchemaSupport.DIASTOLIC_BLOOD_PRESSURE, SchemaVersion.V1_1);
 
   DiastolicBloodPressure({
     required String unit,
@@ -86,12 +107,15 @@ class BloodPressureUnit extends Unit {
   BloodPressureUnit(super.schemaValue);
 }
 
-/// The position of a subject during a clinical measurement.
+/// The position (body posture) of a subject during a clinical measurement.
 ///
-/// OMH version 1.0
-/// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_position-during-measurement">position-during-measurement</a>
+/// From OMH blood-pressure 4.0, this is the IEEE 1752.1 body posture, which
+/// adds [SEMI_RECUMBENT].
+///
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/body-posture-1.0.json">body-posture</a>
 class PositionDuringMeasurement {
   static const String SITTING = 'sitting';
   static const String LYING_DOWN = 'lying down';
   static const String STANDING = 'standing';
+  static const String SEMI_RECUMBENT = 'semi-recumbent';
 }

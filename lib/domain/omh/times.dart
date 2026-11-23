@@ -130,7 +130,7 @@ class PartOfDay extends SchemaEnumValue {
 
 /// This schema represents the temporal relationship of a clinical measure or assessment to meals (e.g., fasting, after lunch).
 ///
-/// OMH version 1.0
+/// OMH version 1.2
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_temporal-relationship-to-meal">temporal-relationship-to-meal</a>
 class TemporalRelationshipToMeal extends SchemaEnumValue {
   static const String FASTING = 'fasting';
