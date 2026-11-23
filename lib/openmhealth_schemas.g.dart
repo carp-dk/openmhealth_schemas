@@ -48,22 +48,10 @@ Map<String, dynamic> _$MeasureToJson(Measure instance) => <String, dynamic>{
   'user_notes': ?instance.userNotes,
 };
 
-DataPoint _$DataPointFromJson(Map<String, dynamic> json) => DataPoint._(
-  DataPointHeader.fromJson(json['header'] as Map<String, dynamic>),
-  Measure.fromJson(json['body'] as Map<String, dynamic>),
-);
-
 Map<String, dynamic> _$DataPointToJson(DataPoint instance) => <String, dynamic>{
   'header': instance.header,
   'body': instance.body,
 };
-
-DataSeries _$DataSeriesFromJson(Map<String, dynamic> json) => DataSeries._(
-  DataPointHeader.fromJson(json['header'] as Map<String, dynamic>),
-  (json['body'] as List<dynamic>)
-      .map((e) => Measure.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
 
 Map<String, dynamic> _$DataSeriesToJson(DataSeries instance) =>
     <String, dynamic>{'header': instance.header, 'body': instance.body};
@@ -964,10 +952,10 @@ Map<String, dynamic> _$SurveyQuestionToJson(SurveyQuestion instance) =>
     <String, dynamic>{'text': instance.text, 'label': ?instance.label};
 
 SurveyAnswer _$SurveyAnswerFromJson(Map<String, dynamic> json) =>
-    SurveyAnswer(value: json['value'] as Object);
+    SurveyAnswer(value: json['value'] as Object, code: json['code']);
 
 Map<String, dynamic> _$SurveyAnswerToJson(SurveyAnswer instance) =>
-    <String, dynamic>{'value': instance.value};
+    <String, dynamic>{'value': instance.value, 'code': ?instance.code};
 
 SurveyCategoricalAnswer _$SurveyCategoricalAnswerFromJson(
   Map<String, dynamic> json,

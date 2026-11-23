@@ -155,8 +155,10 @@ class SurveyQuestion implements SchemaSupport {
 /// measure, use [SurveyUnitValueAnswer]. For dates and times, use
 /// [SurveyDateAnswer] and [SurveyTimeAnswer].
 ///
-/// Note that when a [SurveyItem] is read from JSON, its answers are read as
-/// [SurveyAnswer] objects, where [value] holds the raw JSON value.
+/// IEEE 1752.1 does not identify the type of an answer in the JSON. Hence,
+/// when a [SurveyItem] is read from JSON, its answers are read as
+/// [SurveyAnswer] objects, where [value] holds the raw JSON value and [code]
+/// holds the code of a categorical answer (if any). No data is lost.
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-answer-1.0.json">survey-answer</a>
@@ -171,7 +173,15 @@ class SurveyAnswer implements SchemaSupport {
   /// The value of the answer.
   final Object value;
 
-  SurveyAnswer({required this.value});
+  /// The code of a categorical answer (see [SurveyCategoricalAnswer]), if any.
+  /// Must be a number or a string.
+  final Object? code;
+
+  SurveyAnswer({required this.value, this.code})
+    : assert(
+        code == null || code is num || code is String,
+        'The code must be a number or a string.',
+      );
 
   factory SurveyAnswer.fromJson(Map<String, dynamic> json) =>
       _$SurveyAnswerFromJson(json);
@@ -194,14 +204,9 @@ class SurveyCategoricalAnswer extends SurveyAnswer {
     SchemaVersion.V1_0,
   );
 
-  /// A code used to identify the answer. Must be a number or a string.
-  final Object? code;
-
-  SurveyCategoricalAnswer({required super.value, this.code})
-    : assert(
-        code == null || code is num || code is String,
-        'The code must be a number or a string.',
-      );
+  /// Creates a categorical answer with the [value] of the answer and an
+  /// optional [code] used to identify the answer (a number or a string).
+  SurveyCategoricalAnswer({required super.value, super.code});
 
   factory SurveyCategoricalAnswer.fromJson(Map<String, dynamic> json) =>
       _$SurveyCategoricalAnswerFromJson(json);

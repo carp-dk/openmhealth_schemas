@@ -7,12 +7,15 @@ part of '../../openmhealth_schemas.dart';
 /// [DataPointHeader.schemaId] identifies the schema of the body, including
 /// its namespace (`ieee` or `omh`).
 ///
+/// When reading a data point from JSON, the body is created using the
+/// [MeasureFactory], based on the schema id of the header.
+///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/data-point-1.0.json">data-point</a>
 @JsonSerializable(
   fieldRename: FieldRename.snake,
   includeIfNull: false,
-  constructor: '_',
+  createFactory: false,
 )
 class DataPoint implements SchemaSupport {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
@@ -47,8 +50,19 @@ class DataPoint implements SchemaSupport {
          externalDatasheets: externalDatasheets,
        );
 
-  factory DataPoint.fromJson(Map<String, dynamic> json) =>
-      _$DataPointFromJson(json);
+  factory DataPoint.fromJson(Map<String, dynamic> json) {
+    final header = DataPointHeader.fromJson(
+      json['header'] as Map<String, dynamic>,
+    );
+    return DataPoint._(
+      header,
+      MeasureFactory.fromJson(
+        header.schemaId,
+        json['body'] as Map<String, dynamic>,
+      ),
+    );
+  }
+
   Map<String, dynamic> toJson() => _$DataPointToJson(this);
 
   @override
@@ -61,12 +75,15 @@ class DataPoint implements SchemaSupport {
 /// All measures in the [body] must comply with the schema identified by the
 /// [DataPointHeader.schemaId] of the [header].
 ///
+/// When reading a data series from JSON, the measures in the body are created
+/// using the [MeasureFactory], based on the schema id of the header.
+///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/data-series-1.0.json">data-series</a>
 @JsonSerializable(
   fieldRename: FieldRename.snake,
   includeIfNull: false,
-  constructor: '_',
+  createFactory: false,
 )
 class DataSeries implements SchemaSupport {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
@@ -113,8 +130,23 @@ class DataSeries implements SchemaSupport {
     );
   }
 
-  factory DataSeries.fromJson(Map<String, dynamic> json) =>
-      _$DataSeriesFromJson(json);
+  factory DataSeries.fromJson(Map<String, dynamic> json) {
+    final header = DataPointHeader.fromJson(
+      json['header'] as Map<String, dynamic>,
+    );
+    return DataSeries._(
+      header,
+      (json['body'] as List<dynamic>)
+          .map(
+            (e) => MeasureFactory.fromJson(
+              header.schemaId,
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() => _$DataSeriesToJson(this);
 
   @override
