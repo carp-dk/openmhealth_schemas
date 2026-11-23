@@ -13,7 +13,17 @@ class PhysicalActivity extends Measure {
   String activityName;
   LengthUnitValue? distance;
   String? reportedActivityIntensity;
+
+  /// The calories burned during the activity.
+  ///
+  /// Serialized as `kcal_burned` as defined in OMH. For backward compatibility,
+  /// the (incorrect) `calories_burned` used in earlier versions of this
+  /// package is also accepted when reading JSON.
+  @JsonKey(name: 'kcal_burned', readValue: _readKcalBurned)
   KcalUnitValue? caloriesBurned;
+
+  static Object? _readKcalBurned(Map<dynamic, dynamic> json, String key) =>
+      json[key] ?? json['calories_burned'];
 
   /// Creates a [PhysicalActivity].
   /// The [activityName] is required according to the OMH definition.

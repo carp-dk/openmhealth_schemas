@@ -16,10 +16,12 @@ class DescriptiveStatistic {
 
 /// A denominator used by by a descriptive statistic when applied to a measure with an implicit duration.
 ///
-/// OMH version 1.0
+/// OMH version 1.1
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_descriptive-statistic-denominator">descriptive-statistic-denominator</a>
 class DescriptiveStatisticDenominator {
-  static const String DAY = 'day';
+  static const String DAY = 'd';
+  static const String WEEK = 'wk';
+  static const String MONTH = 'Mo';
   static const String EPISODE = 'episode';
   static const String MEAL = 'meal';
   static const String SESSION = 'session';

@@ -93,7 +93,7 @@ class DurationUnit extends Unit {
   static const String HOUR = 'h';
   static const String DAY = 'd';
   static const String WEEK = 'wk';
-  static const String MONTH = 'mo';
+  static const String MONTH = 'Mo';
   static const String YEAR = 'yr';
 
   DurationUnit(super.schemaValue);

@@ -61,10 +61,12 @@ PhysicalActivity _$PhysicalActivityFromJson(Map<String, dynamic> json) =>
               ),
         reportedActivityIntensity:
             json['reported_activity_intensity'] as String?,
-        caloriesBurned: json['calories_burned'] == null
+        caloriesBurned:
+            PhysicalActivity._readKcalBurned(json, 'kcal_burned') == null
             ? null
             : KcalUnitValue.fromJson(
-                json['calories_burned'] as Map<String, dynamic>,
+                PhysicalActivity._readKcalBurned(json, 'kcal_burned')
+                    as Map<String, dynamic>,
               ),
       )
       ..effectiveTimeFrame = json['effective_time_frame'] == null
@@ -83,7 +85,7 @@ Map<String, dynamic> _$PhysicalActivityToJson(PhysicalActivity instance) =>
       'activity_name': instance.activityName,
       'distance': ?instance.distance,
       'reported_activity_intensity': ?instance.reportedActivityIntensity,
-      'calories_burned': ?instance.caloriesBurned,
+      'kcal_burned': ?instance.caloriesBurned,
     };
 
 KcalUnitValue _$KcalUnitValueFromJson(Map<String, dynamic> json) =>
