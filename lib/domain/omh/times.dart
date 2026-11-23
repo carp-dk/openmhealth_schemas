@@ -21,10 +21,10 @@ class DayOfWeek extends SchemaEnumValue {
 /// OMH version 1.0
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_part-of-day">part-of-day</a>
 class PartOfDay extends SchemaEnumValue {
-  static const String MORNING = 'MORNING';
-  static const String AFTERNOON = 'AFTERNOON';
-  static const String EVENING = 'EVENING';
-  static const String NIGHT = 'NIGHT';
+  static const String MORNING = 'morning';
+  static const String AFTERNOON = 'afternoon';
+  static const String EVENING = 'evening';
+  static const String NIGHT = 'night';
 
   PartOfDay(super.schemaValue);
 }
