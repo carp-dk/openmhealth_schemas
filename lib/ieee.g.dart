@@ -143,6 +143,79 @@ Map<String, dynamic> _$PhysicalActivityToJson(PhysicalActivity instance) =>
           ?instance.descriptiveStatisticDenominator,
     };
 
+AmbientLight _$AmbientLightFromJson(Map<String, dynamic> json) => AmbientLight(
+  ambientLight: (json['ambient_light'] as List<dynamic>)
+      .map((e) => AmbientLightComponent.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  effectiveTimeFrame: TimeFrame.fromJson(
+    json['effective_time_frame'] as Map<String, dynamic>,
+  ),
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+)..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$AmbientLightToJson(AmbientLight instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'ambient_light': instance.ambientLight,
+    };
+
+AmbientLightComponent _$AmbientLightComponentFromJson(
+  Map<String, dynamic> json,
+) => AmbientLightComponent(
+  intensity: IlluminanceUnitValue.fromJson(
+    json['intensity'] as Map<String, dynamic>,
+  ),
+  wavelength: json['wavelength'] == null
+      ? null
+      : LengthUnitValue.fromJson(json['wavelength'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$AmbientLightComponentToJson(
+  AmbientLightComponent instance,
+) => <String, dynamic>{
+  'wavelength': ?instance.wavelength,
+  'intensity': instance.intensity,
+};
+
+AmbientSound _$AmbientSoundFromJson(Map<String, dynamic> json) => AmbientSound(
+  ambientSound: SoundUnitValue.fromJson(
+    json['ambient_sound'] as Map<String, dynamic>,
+  ),
+  effectiveTimeFrame: TimeFrame.fromJson(
+    json['effective_time_frame'] as Map<String, dynamic>,
+  ),
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+)..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$AmbientSoundToJson(AmbientSound instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'ambient_sound': instance.ambientSound,
+    };
+
+AmbientTemperature _$AmbientTemperatureFromJson(Map<String, dynamic> json) =>
+    AmbientTemperature(
+      ambientTemperature: TemperatureUnitValue.fromJson(
+        json['ambient_temperature'] as Map<String, dynamic>,
+      ),
+      effectiveTimeFrame: TimeFrame.fromJson(
+        json['effective_time_frame'] as Map<String, dynamic>,
+      ),
+      descriptiveStatistic: json['descriptive_statistic'] as String?,
+    )..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$AmbientTemperatureToJson(AmbientTemperature instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'ambient_temperature': instance.ambientTemperature,
+    };
+
 ApneaHypopneaIndex _$ApneaHypopneaIndexFromJson(Map<String, dynamic> json) =>
     ApneaHypopneaIndex(
       apneaHypopneaIndex: UnitValue.fromJson(
@@ -751,6 +824,28 @@ SoundUnitValue _$SoundUnitValueFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SoundUnitValueToJson(SoundUnitValue instance) =>
     <String, dynamic>{'value': instance.value, 'unit': instance.unit};
+
+IlluminanceUnitValue _$IlluminanceUnitValueFromJson(
+  Map<String, dynamic> json,
+) => IlluminanceUnitValue(
+  value: (json['value'] as num).toDouble(),
+  unit: json['unit'] as String? ?? IlluminanceUnit.LUX,
+);
+
+Map<String, dynamic> _$IlluminanceUnitValueToJson(
+  IlluminanceUnitValue instance,
+) => <String, dynamic>{'value': instance.value, 'unit': instance.unit};
+
+TemperatureUnitValue _$TemperatureUnitValueFromJson(
+  Map<String, dynamic> json,
+) => TemperatureUnitValue(
+  unit: json['unit'] as String,
+  value: (json['value'] as num).toDouble(),
+);
+
+Map<String, dynamic> _$TemperatureUnitValueToJson(
+  TemperatureUnitValue instance,
+) => <String, dynamic>{'value': instance.value, 'unit': instance.unit};
 
 UnitValueRange _$UnitValueRangeFromJson(Map<String, dynamic> json) =>
     UnitValueRange(

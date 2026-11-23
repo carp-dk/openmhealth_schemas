@@ -127,6 +127,80 @@ class SoundUnit extends Unit {
   SoundUnit(super.schemaValue);
 }
 
+/// An illuminance, i.e., the total luminous flux incident on a surface, per
+/// unit area.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/illuminance-unit-value-1.0.json">illuminance-unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class IlluminanceUnitValue extends UnitValue {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'illuminance-unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  /// Creates an [IlluminanceUnitValue] of [value] lux.
+  IlluminanceUnitValue({
+    required double value,
+    String unit = IlluminanceUnit.LUX,
+  }) : super(unit, value);
+
+  factory IlluminanceUnitValue.fromJson(Map<String, dynamic> json) =>
+      _$IlluminanceUnitValueFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$IlluminanceUnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// A unit of illuminance.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/illuminance-unit-value-1.0.json">illuminance-unit-value</a>
+class IlluminanceUnit extends Unit {
+  static const String LUX = 'lx';
+
+  IlluminanceUnit(super.schemaValue);
+}
+
+/// A temperature (intensity of heat).
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/temperature-unit-value-1.0.json">temperature-unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class TemperatureUnitValue extends UnitValue {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'temperature-unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  TemperatureUnitValue({required String unit, required double value})
+    : super(unit, value);
+
+  factory TemperatureUnitValue.fromJson(Map<String, dynamic> json) =>
+      _$TemperatureUnitValueFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$TemperatureUnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// A unit of temperature.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/temperature-unit-value-1.0.json">temperature-unit-value</a>
+class TemperatureUnit extends Unit {
+  static const String KELVIN = 'K';
+  static const String FAHRENHEIT = 'F';
+  static const String CELSIUS = 'C';
+
+  TemperatureUnit(super.schemaValue);
+}
+
 /// A range of numerical values with a unit of measure.
 ///
 /// IEEE 1752.1 version 1.0
