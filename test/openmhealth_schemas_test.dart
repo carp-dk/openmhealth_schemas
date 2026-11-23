@@ -21,6 +21,8 @@ void main() {
 
       expect(position.elevation!.value, 1548.5);
 
+      print('\nGeoposition:\n${_encode(position)}');
+
       print(position.latitude.toString());
       print(position.longitude.toString());
       print(position.elevation.toString());

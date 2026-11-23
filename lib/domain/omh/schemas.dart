@@ -3,6 +3,7 @@ part of '../../openmhealth_schemas.dart';
 /// An abstract class represent any OMH schema.
 abstract class SchemaSupport {
   static const String OMH_NAMESPACE = 'omh';
+  static const String IEEE_NAMESPACE = 'ieee';
   static const String CACHET_NAMESPACE = 'cachet';
 
   static const String ACCELERATION = 'acceleration';
@@ -48,9 +49,10 @@ abstract class SchemaEnumValue {
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SchemaId extends Object implements SchemaSupport, Comparable<SchemaId> {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE,
-      'schema-id',
-      SchemaVersion(major: 1, minor: 0));
+    SchemaSupport.OMH_NAMESPACE,
+    'schema-id',
+    SchemaVersion(major: 1, minor: 0),
+  );
 
   final String namespace;
   final String name;
@@ -59,13 +61,10 @@ class SchemaId extends Object implements SchemaSupport, Comparable<SchemaId> {
   @JsonKey(ignore: true)
   final SchemaVersion schemaVersion;
 
-  SchemaId({
-    required this.namespace,
-    required this.name,
-    required this.version,
-  }) : schemaVersion = SchemaVersion.fromString(version);
+  SchemaId({required this.namespace, required this.name, required this.version})
+    : schemaVersion = SchemaVersion.fromString(version);
   SchemaId.withVersion(this.namespace, this.name, this.schemaVersion)
-      : version = schemaVersion.toString();
+    : version = schemaVersion.toString();
 
   factory SchemaId.fromJson(Map<String, dynamic> json) =>
       _$SchemaIdFromJson(json);
@@ -104,11 +103,7 @@ class SchemaVersion implements Comparable<SchemaVersion> {
   String? qualifier;
 
   //TODO : should check if this is a valid version - see original OMH Java implementation.
-  SchemaVersion({
-    this.major = 1,
-    this.minor = 0,
-    this.qualifier,
-  });
+  SchemaVersion({this.major = 1, this.minor = 0, this.qualifier});
 
   factory SchemaVersion.v10() => SchemaVersion(major: 1, minor: 0);
 
