@@ -16,18 +16,18 @@ part of '../openmhealth_schemas.dart';
 /// ```
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class Measure implements SchemaSupport {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE, SchemaSupport.MEASURE, SchemaVersion.V1_0);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.MEASURE,
+    SchemaVersion.V1_0,
+  );
 
   TimeFrame? effectiveTimeFrame;
   String? descriptiveStatistic;
   String? userNotes;
 
-  Measure({
-    this.effectiveTimeFrame,
-    this.descriptiveStatistic,
-    this.userNotes,
-  }) : super();
+  Measure({this.effectiveTimeFrame, this.descriptiveStatistic, this.userNotes})
+    : super();
 
   factory Measure.fromJson(Map<String, dynamic> json) =>
       _$MeasureFromJson(json);

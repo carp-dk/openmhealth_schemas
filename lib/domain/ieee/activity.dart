@@ -10,7 +10,7 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/physical_activity/physical-activity-1.0.json">physical-activity</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class PhysicalActivity extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.ACTIVITY,
     SchemaVersion.V1_0,

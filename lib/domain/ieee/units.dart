@@ -12,7 +12,7 @@ abstract class Unit extends SchemaEnumValue {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/unit-value-1.0.json">unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class UnitValue implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'unit-value',
     SchemaVersion.V1_0,
@@ -40,7 +40,7 @@ class UnitValue implements SchemaSupport {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/length-unit-value-1.0.json">length-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class LengthUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'length-unit-value',
     SchemaVersion.V1_0,
@@ -84,7 +84,7 @@ class LengthUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/duration-unit-value-1.0.json">duration-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DurationUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'duration-unit-value',
     SchemaVersion.V1_0,
@@ -107,7 +107,7 @@ class DurationUnitValue extends UnitValue {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/kcal-unit-value-1.0.json">kcal-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class KcalUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'kcal-unit-value',
     SchemaVersion.V1_0,
@@ -163,7 +163,7 @@ class DurationUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/speed-unit-value-1.0.json">speed-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SpeedUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'speed-unit-value',
     SchemaVersion.V1_0,
@@ -198,7 +198,7 @@ class SpeedUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/percent-unit-value-1.0.json">percent-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class PercentUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'percent-unit-value',
     SchemaVersion.V1_0,
@@ -233,7 +233,7 @@ class PercentUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/sound-unit-value-1.0.json">sound-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SoundUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'sound-unit-value',
     SchemaVersion.V1_0,
@@ -269,7 +269,7 @@ class SoundUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/illuminance-unit-value-1.0.json">illuminance-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class IlluminanceUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'illuminance-unit-value',
     SchemaVersion.V1_0,
@@ -306,7 +306,7 @@ class IlluminanceUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/temperature-unit-value-1.0.json">temperature-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class TemperatureUnitValue extends UnitValue {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'temperature-unit-value',
     SchemaVersion.V1_0,
@@ -342,7 +342,7 @@ class TemperatureUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/unit-value-range-1.0.json">unit-value-range</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class UnitValueRange implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'unit-value-range',
     SchemaVersion.V1_0,
@@ -381,7 +381,7 @@ class UnitValueRange implements SchemaSupport {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/duration-unit-value-range-1.0.json">duration-unit-value-range</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DurationUnitValueRange extends UnitValueRange {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'duration-unit-value-range',
     SchemaVersion.V1_0,
@@ -414,7 +414,7 @@ class DurationUnitValueRange extends UnitValueRange {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/frequency-unit-value-1.0.json">frequency-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class FrequencyUnitValue implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'frequency-unit-value',
     SchemaVersion.V1_0,

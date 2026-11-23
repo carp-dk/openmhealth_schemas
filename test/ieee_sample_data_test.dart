@@ -76,9 +76,8 @@ Object? withoutDescription(Object? sample) {
   if (sample is! Map<String, dynamic>) return sample;
   final copy = Map<String, dynamic>.of(sample)..remove('description');
   if (copy['body'] is Map<String, dynamic>) {
-    copy['body'] = Map<String, dynamic>.of(
-      copy['body'] as Map<String, dynamic>,
-    )..remove('description');
+    copy['body'] = Map<String, dynamic>.of(copy['body'] as Map<String, dynamic>)
+      ..remove('description');
   }
   return copy;
 }
@@ -122,33 +121,30 @@ Future<void> main() async {
 
   final validator = SchemaValidator(schemas);
   JsonValidator validatorFor(String schema) => switch (schema) {
-    'data-point' || 'data-series' => (json) =>
-        validator.validateDataPoint(json! as Map<String, dynamic>),
+    'data-point' || 'data-series' => (json) => validator.validateDataPoint(
+      json! as Map<String, dynamic>,
+    ),
     _ => (json) => validator.validate(SchemaValidator.ieeeUrl(schema), json),
   };
 
   group('IEEE sample data', () {
     for (final path in samples) {
-      test(
-        path.substring('sample_data/'.length),
-        () async {
-          final schema = schemaOf(path);
-          final supported = ieeeSchemas[schema];
-          expect(
-            supported,
-            isNotNull,
-            reason: 'No Dart class for the schema "$schema" of $path',
-          );
-          await checkRoundTrip(
-            Ieee.raw(path),
-            withoutDescription(await data[path]),
-            supported!.parse,
-            validate: validatorFor(schema!),
-            knownIssue: knownIssues[path],
-          );
-        },
-        skip: excluded(path),
-      );
+      test(path.substring('sample_data/'.length), () async {
+        final schema = schemaOf(path);
+        final supported = ieeeSchemas[schema];
+        expect(
+          supported,
+          isNotNull,
+          reason: 'No Dart class for the schema "$schema" of $path',
+        );
+        await checkRoundTrip(
+          Ieee.raw(path),
+          withoutDescription(await data[path]),
+          supported!.parse,
+          validate: validatorFor(schema!),
+          knownIssue: knownIssues[path],
+        );
+      }, skip: excluded(path));
     }
 
     test('known issues refer to existing sample files', () {

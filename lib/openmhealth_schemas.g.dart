@@ -6,18 +6,6 @@ part of 'openmhealth_schemas.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SchemaId _$SchemaIdFromJson(Map<String, dynamic> json) => SchemaId(
-  namespace: json['namespace'] as String,
-  name: json['name'] as String,
-  version: json['version'] as String,
-);
-
-Map<String, dynamic> _$SchemaIdToJson(SchemaId instance) => <String, dynamic>{
-  'namespace': instance.namespace,
-  'name': instance.name,
-  'version': instance.version,
-};
-
 SchemaVersion _$SchemaVersionFromJson(Map<String, dynamic> json) =>
     SchemaVersion(
       major: (json['major'] as num?)?.toInt() ?? 1,
@@ -1029,18 +1017,18 @@ Map<String, dynamic> _$SurveyUnitValueAnswerToJson(
 
 Acceleration _$AccelerationFromJson(Map<String, dynamic> json) =>
     Acceleration(
-        acceleration_x: AccelerationUnitValue.fromJson(
+        accelerationX: AccelerationUnitValue.fromJson(
           json['acceleration_x'] as Map<String, dynamic>,
         ),
-        acceleration_y: AccelerationUnitValue.fromJson(
+        accelerationY: AccelerationUnitValue.fromJson(
           json['acceleration_y'] as Map<String, dynamic>,
         ),
-        acceleration_z: json['acceleration_z'] == null
+        accelerationZ: json['acceleration_z'] == null
             ? null
             : AccelerationUnitValue.fromJson(
                 json['acceleration_z'] as Map<String, dynamic>,
               ),
-        sensor_body_location: json['sensor_body_location'] as String?,
+        sensorBodyLocation: json['sensor_body_location'] as String?,
       )
       ..effectiveTimeFrame = json['effective_time_frame'] == null
           ? null
@@ -1055,10 +1043,10 @@ Map<String, dynamic> _$AccelerationToJson(Acceleration instance) =>
       'effective_time_frame': ?instance.effectiveTimeFrame,
       'descriptive_statistic': ?instance.descriptiveStatistic,
       'user_notes': ?instance.userNotes,
-      'acceleration_x': instance.acceleration_x,
-      'acceleration_y': instance.acceleration_y,
-      'acceleration_z': ?instance.acceleration_z,
-      'sensor_body_location': ?instance.sensor_body_location,
+      'acceleration_x': instance.accelerationX,
+      'acceleration_y': instance.accelerationY,
+      'acceleration_z': ?instance.accelerationZ,
+      'sensor_body_location': ?instance.sensorBodyLocation,
     };
 
 AccelerationUnitValue _$AccelerationUnitValueFromJson(

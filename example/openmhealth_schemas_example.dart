@@ -20,14 +20,18 @@ void main() {
   print('PhysicalActivity:\n${toJsonString(walk)}');
 
   // Create an OMH heart rate measure.
-  final heartRate = HeartRate(
-    heartRate: HeartRateUnitValue(
-      unit: HeartRateUnit.BEATS_PER_MINUTE,
-      value: 62,
-    ),
-    temporalRelationshipToPhysicalActivity:
-        TemporalRelationshipToPhysicalActivity.AT_REST,
-  )..effectiveTimeFrame = TimeFrame(dateTime: DateTime.utc(2026, 11, 23, 7, 30));
+  final heartRate =
+      HeartRate(
+          heartRate: HeartRateUnitValue(
+            unit: HeartRateUnit.BEATS_PER_MINUTE,
+            value: 62,
+          ),
+          temporalRelationshipToPhysicalActivity:
+              TemporalRelationshipToPhysicalActivity.AT_REST,
+        )
+        ..effectiveTimeFrame = TimeFrame(
+          dateTime: DateTime.utc(2026, 11, 23, 7, 30),
+        );
   print('\nHeartRate:\n${toJsonString(heartRate)}');
 
   // Put the heart rate measure in an IEEE 1752.1 data point.
@@ -43,8 +47,10 @@ void main() {
     json.decode(json.encode(dataPoint)) as Map<String, dynamic>,
   );
   final body = readBack.body as HeartRate;
-  print('\nRead back a ${body.runtimeType} of ${body.heartRate.value} '
-      '${body.heartRate.unit}');
+  print(
+    '\nRead back a ${body.runtimeType} of ${body.heartRate.value} '
+    '${body.heartRate.unit}',
+  );
 }
 
 /// Converts [object] to a formatted JSON string.

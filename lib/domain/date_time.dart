@@ -13,7 +13,10 @@ part of '../openmhealth_schemas.dart';
 class _UtcDateTimeConverter implements JsonConverter<DateTime, String> {
   const _UtcDateTimeConverter();
 
-  static final RegExp _timeZone = RegExp(r'(Z|[+-]\d{2}(:?\d{2})?)$', caseSensitive: false);
+  static final RegExp _timeZone = RegExp(
+    r'(Z|[+-]\d{2}(:?\d{2})?)$',
+    caseSensitive: false,
+  );
 
   @override
   DateTime fromJson(String json) => DateTime.parse(

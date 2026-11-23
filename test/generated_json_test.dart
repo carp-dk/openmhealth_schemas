@@ -156,7 +156,10 @@ final Map<String, Measure Function()> examples = {
     snoreEvents: [
       SnoreEvent(
         snored: true,
-        snoreTimeFrame: TimeInterval(startDateTime: _start, duration: _minutes(2)),
+        snoreTimeFrame: TimeInterval(
+          startDateTime: _start,
+          duration: _minutes(2),
+        ),
         snoreIntensity: SoundUnitValue(unit: SoundUnit.DECIBEL, value: 45),
         bodyPosture: BodyPosture.LYING_DOWN,
       ),
@@ -198,10 +201,19 @@ final Map<String, Measure Function()> examples = {
 
   // OMH
   'acceleration': () => Acceleration(
-    acceleration_x: AccelerationUnitValue(unit: AccelerationUnit.M_S2, value: 9.8),
-    acceleration_y: AccelerationUnitValue(unit: AccelerationUnit.M_S2, value: 0.1),
-    acceleration_z: AccelerationUnitValue(unit: AccelerationUnit.M_S2, value: 0.2),
-    sensor_body_location: BodyLocation.RIGHT_HIP,
+    accelerationX: AccelerationUnitValue(
+      unit: AccelerationUnit.M_S2,
+      value: 9.8,
+    ),
+    accelerationY: AccelerationUnitValue(
+      unit: AccelerationUnit.M_S2,
+      value: 0.1,
+    ),
+    accelerationZ: AccelerationUnitValue(
+      unit: AccelerationUnit.M_S2,
+      value: 0.2,
+    ),
+    sensorBodyLocation: BodyLocation.RIGHT_HIP,
   )..effectiveTimeFrame = _pointInTime,
   'blood pressure': () => BloodPressure(
     systolicBloodPressure: SystolicBloodPressure(
@@ -222,25 +234,21 @@ final Map<String, Measure Function()> examples = {
     activityName: 'walking',
     descriptiveStatisticDenominator: DescriptiveStatisticDenominator.DAY,
   )..effectiveTimeFrame = _interval,
-  'geoposition': () =>
-      Geoposition(
-          latitude: PlaneAngleUnitValue(
-            unit: PlaneAngleUnit.DEGREE_OF_ARC,
-            value: 55.7858,
-          ),
-          longitude: PlaneAngleUnitValue(
-            unit: PlaneAngleUnit.DEGREE_OF_ARC,
-            value: 12.5212,
-          ),
-          elevation: LengthUnitValue(LengthUnit.METER, 25),
-          numberOfSatellitesInView: 9,
-          numberOfSatellitesInFix: 7,
-          satelliteSignalStrengths: [
-            UnitValue(SignalToNoiseRatioUnit.DECIBEL, 35),
-          ],
-          positioningSystem: PositioningSystem.GPS,
-        )
-        ..effectiveTimeFrame = _pointInTime,
+  'geoposition': () => Geoposition(
+    latitude: PlaneAngleUnitValue(
+      unit: PlaneAngleUnit.DEGREE_OF_ARC,
+      value: 55.7858,
+    ),
+    longitude: PlaneAngleUnitValue(
+      unit: PlaneAngleUnit.DEGREE_OF_ARC,
+      value: 12.5212,
+    ),
+    elevation: LengthUnitValue(LengthUnit.METER, 25),
+    numberOfSatellitesInView: 9,
+    numberOfSatellitesInFix: 7,
+    satelliteSignalStrengths: [UnitValue(SignalToNoiseRatioUnit.DECIBEL, 35)],
+    positioningSystem: PositioningSystem.GPS,
+  )..effectiveTimeFrame = _pointInTime,
   'heart rate': () => HeartRate(
     heartRate: HeartRateUnitValue(
       unit: HeartRateUnit.BEATS_PER_MINUTE,
@@ -283,8 +291,10 @@ Future<void> main() async {
     return;
   }
 
-  Future<List<SchemaError>> validate(Object object) => validator
-      .validateDataPoint(json.decode(json.encode(object)) as Map<String, dynamic>);
+  Future<List<SchemaError>> validate(Object object) =>
+      validator.validateDataPoint(
+        json.decode(json.encode(object)) as Map<String, dynamic>,
+      );
 
   group('JSON generated in Dart complies with the schema', () {
     for (final MapEntry(key: name, value: example) in examples.entries) {
@@ -310,8 +320,7 @@ Future<void> main() async {
     test('all measures have an example', () {
       // Each measure registered in the MeasureFactory needs an example.
       final names = {
-        for (final example in examples.values)
-          example().getSchemaId().name,
+        for (final example in examples.values) example().getSchemaId().name,
       };
       expect(names, hasLength(22));
     });

@@ -7,7 +7,7 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/environment/ambient-light-1.0.json">ambient-light</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class AmbientLight extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'ambient-light',
     SchemaVersion.V1_0,
@@ -60,7 +60,7 @@ class AmbientLightComponent {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/environment/ambient-sound-1.0.json">ambient-sound</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class AmbientSound extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'ambient-sound',
     SchemaVersion.V1_0,
@@ -90,7 +90,7 @@ class AmbientSound extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/environment/ambient-temperature-1.0.json">ambient-temperature</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class AmbientTemperature extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'ambient-temperature',
     SchemaVersion.V1_0,

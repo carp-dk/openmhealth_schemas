@@ -7,7 +7,7 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_heart-rate">heart-rate</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class HeartRate extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.OMH_NAMESPACE,
     SchemaSupport.HEART_RATE,
     SchemaVersion.V3_0,
@@ -40,7 +40,7 @@ class HeartRate extends Measure {
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_rr-interval">rr-interval</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class RrInterval extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.OMH_NAMESPACE,
     SchemaSupport.RR_INTERVAL,
     SchemaVersion.V2_0,
@@ -71,7 +71,7 @@ class RrInterval extends Measure {
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_heart-rate">heart-rate</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class HeartRateUnitValue extends UnitValue {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'unit-value',
     SchemaVersion.V1_0,
@@ -96,7 +96,7 @@ class HeartRateUnitValue extends UnitValue {
 /// See <a href="https://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_rr-interval">rr-interval</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class RrInterUnitValue extends UnitValue {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'duration-unit-value',
     SchemaVersion.V1_0,

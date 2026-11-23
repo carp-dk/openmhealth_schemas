@@ -18,7 +18,7 @@ part of '../../openmhealth_schemas.dart';
   createFactory: false,
 )
 class DataPoint implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.DATA_POINT,
     SchemaVersion.V1_0,
@@ -86,7 +86,7 @@ class DataPoint implements SchemaSupport {
   createFactory: false,
 )
 class DataSeries implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'data-series',
     SchemaVersion.V1_0,
@@ -168,7 +168,7 @@ class DataSeries implements SchemaSupport {
   converters: [_UtcDateTimeConverter()],
 )
 class DataPointHeader implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'header',
     SchemaVersion.V1_0,

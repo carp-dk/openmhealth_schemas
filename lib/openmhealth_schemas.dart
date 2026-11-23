@@ -45,4 +45,4 @@ part 'domain/omh/times.dart';
 part 'openmhealth_schemas.g.dart';
 
 // auto generate json code (.g files) with:
-//   dart run build_runner build --delete-conflicting-outputs
+//   dart run build_runner build

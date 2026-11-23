@@ -29,7 +29,7 @@ class SleepIndexUnit extends Unit {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/apnea-hypopnea-index-1.0.json">apnea-hypopnea-index</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class ApneaHypopneaIndex extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'apnea-hypopnea-index',
     SchemaVersion.V1_0,
@@ -64,7 +64,7 @@ class ApneaHypopneaIndex extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/arousal-index-1.0.json">arousal-index</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class ArousalIndex extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'arousal-index',
     SchemaVersion.V1_0,
@@ -103,7 +103,7 @@ class ArousalIndex extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/deep-sleep-1.0.json">deep-sleep</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DeepSleep extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'deep-sleep',
     SchemaVersion.V1_0,
@@ -150,7 +150,7 @@ class DeepSleep extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/light-sleep-1.0.json">light-sleep</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class LightSleep extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'light-sleep',
     SchemaVersion.V1_0,
@@ -196,7 +196,7 @@ class LightSleep extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/sleep-episode-1.0.json">sleep-episode</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SleepEpisode extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'sleep-episode',
     SchemaVersion.V1_0,
@@ -263,7 +263,7 @@ class SleepEpisode extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/sleep-onset-latency-1.0.json">sleep-onset-latency</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SleepOnsetLatency extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'sleep-onset-latency',
     SchemaVersion.V1_0,
@@ -302,7 +302,7 @@ class SleepOnsetLatency extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/sleep-stage-summary-1.0.json">sleep-stage-summary</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SleepStageSummary extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'sleep-stage-summary',
     SchemaVersion.V1_0,
@@ -433,7 +433,7 @@ class SleepStageState {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/snore-index-1.0.json">snore-index</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SnoreIndex extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'snore-index',
     SchemaVersion.V1_0,
@@ -506,7 +506,7 @@ class SnoreEvent {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/time-in-bed-1.0.json">time-in-bed</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class TimeInBed extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'time-in-bed',
     SchemaVersion.V1_0,
@@ -545,7 +545,7 @@ class TimeInBed extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/total-sleep-time-1.0.json">total-sleep-time</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class TotalSleepTime extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'total-sleep-time',
     SchemaVersion.V1_0,
@@ -588,7 +588,7 @@ class TotalSleepTime extends Measure {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/sleep/wake-after-sleep-onset-1.0.json">wake-after-sleep-onset</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class WakeAfterSleepOnset extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'wake-after-sleep-onset',
     SchemaVersion.V1_0,

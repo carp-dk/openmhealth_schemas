@@ -7,7 +7,7 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-1.0.json">survey</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class Survey extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.SURVEY,
     SchemaVersion.V1_0,
@@ -89,7 +89,7 @@ class SurveyEndStatus {
   converters: [_UtcDateTimeConverter()],
 )
 class SurveyItem implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.SURVEY_ITEM,
     SchemaVersion.V1_0,
@@ -133,7 +133,7 @@ class SurveyItem implements SchemaSupport {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-question-1.0.json">survey-question</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SurveyQuestion implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.SURVEY_QUESTION,
     SchemaVersion.V1_0,
@@ -172,7 +172,7 @@ class SurveyQuestion implements SchemaSupport {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-answer-1.0.json">survey-answer</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SurveyAnswer implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.SURVEY_ANSWER,
     SchemaVersion.V1_0,
@@ -206,7 +206,7 @@ class SurveyAnswer implements SchemaSupport {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-categorical-answer-1.0.json">survey-categorical-answer</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SurveyCategoricalAnswer extends SurveyAnswer {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'survey-categorical-answer',
     SchemaVersion.V1_0,
@@ -233,7 +233,7 @@ class SurveyCategoricalAnswer extends SurveyAnswer {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-date-answer-1.0.json">survey-date-answer</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SurveyDateAnswer extends SurveyAnswer {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'survey-date-answer',
     SchemaVersion.V1_0,
@@ -279,7 +279,7 @@ class SurveyDateAnswer extends SurveyAnswer {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-time-answer-1.0.json">survey-time-answer</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SurveyTimeAnswer extends SurveyAnswer {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'survey-time-answer',
     SchemaVersion.V1_0,
@@ -313,7 +313,7 @@ class SurveyTimeAnswer extends SurveyAnswer {
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-unit-value-answer-1.0.json">survey-unit-value-answer</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SurveyUnitValueAnswer extends SurveyAnswer {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'survey-unit-value-answer',
     SchemaVersion.V1_0,

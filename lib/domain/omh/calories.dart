@@ -6,8 +6,11 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_calories-burned">calories-burned</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class CaloriesBurned extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE, SchemaSupport.CALORIES, SchemaVersion.V3_0);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.CALORIES,
+    SchemaVersion.V3_0,
+  );
 
   KcalUnitValue kcalBurned;
   String? activityName;

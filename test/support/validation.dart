@@ -100,7 +100,7 @@ class SchemaValidator {
     return errors;
   }
 
-  Future<JsonSchema> _schema(String url) => _schemas.putIfAbsent(url, () async {
+  Future<JsonSchema> _schema(String url) => _cached(_schemas, url, () async {
     final document = await _document(url);
     final resolved = await _resolve(document, Uri.parse(url), document);
     return JsonSchema.create({
@@ -108,6 +108,20 @@ class SchemaValidator {
       ...resolved! as Map<String, dynamic>,
     });
   });
+
+  /// Gets the value for [key] from [cache], or creates it using [create].
+  ///
+  /// A value which fails to be created (e.g., due to a network error) is not
+  /// kept in the cache, so it is created again the next time.
+  static Future<T> _cached<T>(
+    Map<String, Future<T>> cache,
+    String key,
+    Future<T> Function() create,
+  ) {
+    final value = cache.putIfAbsent(key, create);
+    value.then<void>((_) {}, onError: (Object _) => cache.remove(key));
+    return value;
+  }
 
   /// The location in the IEEE or OMH repository of the schema at [url].
   Uri _location(String url) {
@@ -129,7 +143,7 @@ class SchemaValidator {
 
   /// The JSON schema document at [url].
   Future<Map<String, dynamic>> _document(String url) =>
-      _documents.putIfAbsent(url, () async {
+      _cached(_documents, url, () async {
         var location = _location(url);
         var text = await getText(location);
         // Some OMH schema files, e.g. 'heart-rate-1.x.json', are symbolic
@@ -171,7 +185,8 @@ class SchemaValidator {
         targetDocument = await _document(targetUrl);
       }
       Object? schema = targetDocument;
-      for (final part in target.fragment.split('/').where((p) => p.isNotEmpty)) {
+      for (final part
+          in target.fragment.split('/').where((p) => p.isNotEmpty)) {
         schema = (schema as Map<String, dynamic>)[part];
       }
       return _resolve(schema, targetBase, targetDocument, depth + 1);

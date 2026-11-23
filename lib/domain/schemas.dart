@@ -44,29 +44,51 @@ abstract class SchemaEnumValue {
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/schema-id-1.0.json">schema-id</a>
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class SchemaId extends Object implements SchemaSupport, Comparable<SchemaId> {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+class SchemaId implements SchemaSupport, Comparable<SchemaId> {
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'schema-id',
     SchemaVersion.V1_0,
   );
 
+  /// The namespace of the schema, e.g. `ieee` or `omh`.
   final String namespace;
-  final String name;
-  final String version;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  /// The name of the schema, e.g. `heart-rate`.
+  final String name;
+
+  /// The version of the schema.
   final SchemaVersion schemaVersion;
 
-  SchemaId({required this.namespace, required this.name, required this.version})
-    : schemaVersion = SchemaVersion.fromString(version);
-  SchemaId.withVersion(this.namespace, this.name, this.schemaVersion)
-    : version = schemaVersion.toString();
+  /// The version as given when this schema id was created from a string.
+  final String? _version;
 
-  factory SchemaId.fromJson(Map<String, dynamic> json) =>
-      _$SchemaIdFromJson(json);
-  Map<String, dynamic> toJson() => _$SchemaIdToJson(this);
+  /// Creates a schema id with the [version] as a string, e.g. `1.0`.
+  SchemaId({
+    required this.namespace,
+    required this.name,
+    required String version,
+  }) : schemaVersion = SchemaVersion.fromString(version),
+       _version = version;
+
+  /// Creates a schema id with the [schemaVersion].
+  const SchemaId.withVersion(this.namespace, this.name, this.schemaVersion)
+    : _version = null;
+
+  /// The version of the schema as a string, e.g. `1.0`.
+  String get version => _version ?? schemaVersion.toString();
+
+  factory SchemaId.fromJson(Map<String, dynamic> json) => SchemaId(
+    namespace: json['namespace'] as String,
+    name: json['name'] as String,
+    version: json['version'] as String,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'namespace': namespace,
+    'name': name,
+    'version': version,
+  };
 
   @override
   int compareTo(SchemaId other) {
@@ -93,27 +115,30 @@ class SchemaVersion implements Comparable<SchemaVersion> {
   //static const String VERSION_PATTERN_STRING = "(\\d+)\\.(\\d+)(?:\\.(" + QUALIFIER_PATTERN_STRING + "))?";
   //final Pattern VERSION_PATTERN = Pattern.compile(VERSION_PATTERN_STRING);
 
-  static SchemaVersion V1_0 = SchemaVersion(major: 1, minor: 0);
-  static SchemaVersion V1_1 = SchemaVersion(major: 1, minor: 1);
-  static SchemaVersion V1_2 = SchemaVersion(major: 1, minor: 2);
-  static SchemaVersion V2_0 = SchemaVersion(major: 2, minor: 0);
-  static SchemaVersion V3_0 = SchemaVersion(major: 3, minor: 0);
-  static SchemaVersion V4_0 = SchemaVersion(major: 4, minor: 0);
+  static const SchemaVersion V1_0 = SchemaVersion(major: 1, minor: 0);
+  static const SchemaVersion V1_1 = SchemaVersion(major: 1, minor: 1);
+  static const SchemaVersion V1_2 = SchemaVersion(major: 1, minor: 2);
+  static const SchemaVersion V2_0 = SchemaVersion(major: 2, minor: 0);
+  static const SchemaVersion V3_0 = SchemaVersion(major: 3, minor: 0);
+  static const SchemaVersion V4_0 = SchemaVersion(major: 4, minor: 0);
 
-  int major = 1;
-  int minor = 0;
-  String? qualifier;
+  final int major;
+  final int minor;
+  final String? qualifier;
 
   //TODO : should check if this is a valid version - see original OMH Java implementation.
-  SchemaVersion({this.major = 1, this.minor = 0, this.qualifier});
+  const SchemaVersion({this.major = 1, this.minor = 0, this.qualifier});
 
-  factory SchemaVersion.v10() => SchemaVersion(major: 1, minor: 0);
+  factory SchemaVersion.v10() => V1_0;
 
-  SchemaVersion.fromString(String version) {
-    var l = version.split('.');
-    major = l.isNotEmpty ? int.parse(l[0]) : 1;
-    minor = l.length > 1 ? int.parse(l[1]) : 0;
-    if (l.length > 2) qualifier = l[2];
+  /// Creates a version from a string such as `1.0` or `1.0.RC1`.
+  factory SchemaVersion.fromString(String version) {
+    final parts = version.split('.');
+    return SchemaVersion(
+      major: parts.isNotEmpty ? int.parse(parts[0]) : 1,
+      minor: parts.length > 1 ? int.parse(parts[1]) : 0,
+      qualifier: parts.length > 2 ? parts[2] : null,
+    );
   }
 
   factory SchemaVersion.fromJson(Map<String, dynamic> json) =>

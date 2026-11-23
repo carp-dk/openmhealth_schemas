@@ -91,8 +91,7 @@ Future<void> checkRoundTrip(
 
   // Validate the generated JSON against its schema.
   if (validate != null) {
-    final ignoredErrors =
-        knownIssue?.ignoredSchemaErrors ?? const <String>{};
+    final ignoredErrors = knownIssue?.ignoredSchemaErrors ?? const <String>{};
     final errors = await validate(generated);
     expect(
       errors.where((e) => !ignoredErrors.contains(e.path)).toList(),

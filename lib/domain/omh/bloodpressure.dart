@@ -8,8 +8,11 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_blood-pressure">blood-pressure</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class BloodPressure extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.BLOOD_PRESSURE, SchemaVersion.V4_0);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.BLOOD_PRESSURE,
+    SchemaVersion.V4_0,
+  );
 
   SystolicBloodPressure systolicBloodPressure;
   DiastolicBloodPressure diastolicBloodPressure;
@@ -49,13 +52,14 @@ class BloodPressure extends Measure {
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_systolic-blood-pressure">systolic-blood-pressure</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SystolicBloodPressure extends UnitValue {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.SYSTOLIC_BLOOD_PRESSURE, SchemaVersion.V1_1);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.SYSTOLIC_BLOOD_PRESSURE,
+    SchemaVersion.V1_1,
+  );
 
-  SystolicBloodPressure({
-    required String unit,
-    required double value,
-  }) : super(unit, value);
+  SystolicBloodPressure({required String unit, required double value})
+    : super(unit, value);
 
   factory SystolicBloodPressure.fromJson(Map<String, dynamic> json) =>
       _$SystolicBloodPressureFromJson(json);
@@ -71,13 +75,14 @@ class SystolicBloodPressure extends UnitValue {
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_diastolic-blood-pressure">diastolic-blood-pressure</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DiastolicBloodPressure extends UnitValue {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.DIASTOLIC_BLOOD_PRESSURE, SchemaVersion.V1_1);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.DIASTOLIC_BLOOD_PRESSURE,
+    SchemaVersion.V1_1,
+  );
 
-  DiastolicBloodPressure({
-    required String unit,
-    required double value,
-  }) : super(unit, value);
+  DiastolicBloodPressure({required String unit, required double value})
+    : super(unit, value);
 
   factory DiastolicBloodPressure.fromJson(Map<String, dynamic> json) =>
       _$DiastolicBloodPressureFromJson(json);

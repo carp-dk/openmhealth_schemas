@@ -170,11 +170,10 @@ void main() {
       expect([version.major, version.minor, version.qualifier], [1, 2, null]);
 
       final qualified = SchemaVersion.fromString('1.0.RC1');
-      expect([qualified.major, qualified.minor, qualified.qualifier], [
-        1,
-        0,
-        'RC1',
-      ]);
+      expect(
+        [qualified.major, qualified.minor, qualified.qualifier],
+        [1, 0, 'RC1'],
+      );
       expect(qualified.toString(), '1.0.RC1');
     });
 
@@ -260,7 +259,10 @@ void main() {
         body: TotalSleepTime(
           totalSleepTime: DurationUnitValue(DurationUnit.HOUR, 7),
           effectiveTimeFrame: TimeFrame(
-            timeInterval: TimeInterval(startDateTime: local, endDateTime: local),
+            timeInterval: TimeInterval(
+              startDateTime: local,
+              endDateTime: local,
+            ),
           ),
         ),
         sourceCreationDateTime: local,
@@ -343,10 +345,8 @@ void main() {
         throwsA(isA<AssertionError>()),
       );
       expect(
-        () => FrequencyUnitValue(
-          numberOfTimes: 2,
-          timeWindow: UnitValue('h', 1),
-        ),
+        () =>
+            FrequencyUnitValue(numberOfTimes: 2, timeWindow: UnitValue('h', 1)),
         throwsA(isA<AssertionError>()),
         reason: 'The time window must be a duration or a duration range',
       );
@@ -438,7 +438,7 @@ TotalSleepTime _totalSleepTime(double hours) => TotalSleepTime(
 
 /// A measure defined outside this package, in its own namespace.
 class _LightLevel extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     'example',
     'light-level',
     SchemaVersion.V1_0,

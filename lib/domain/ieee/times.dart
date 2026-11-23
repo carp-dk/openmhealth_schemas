@@ -11,7 +11,7 @@ part of '../../openmhealth_schemas.dart';
   converters: [_UtcDateTimeConverter()],
 )
 class TimeFrame implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.TIME_FRAME,
     SchemaVersion.V1_0,
@@ -56,7 +56,7 @@ class TimeFrame implements SchemaSupport {
   converters: [_UtcDateTimeConverter()],
 )
 class TimeInterval implements SchemaSupport {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     SchemaSupport.TIME_INTERVAL,
     SchemaVersion.V1_0,

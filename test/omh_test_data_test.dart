@@ -120,7 +120,8 @@ Future<void> main() async {
           expect(
             await validator.validate(schemaUrl(name), await data[path]),
             isNotEmpty,
-            reason: '${Omh.raw(path)} should not comply with ${schemaUrl(name)}',
+            reason:
+                '${Omh.raw(path)} should not comply with ${schemaUrl(name)}',
           );
         });
       }

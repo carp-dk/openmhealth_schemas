@@ -28,7 +28,10 @@ class SupportedSchema {
   static SupportedSchema object(
     SchemaVersion version,
     Object Function(Map<String, dynamic>) fromJson,
-  ) => SupportedSchema(version, (json) => fromJson(json as Map<String, dynamic>));
+  ) => SupportedSchema(
+    version,
+    (json) => fromJson(json as Map<String, dynamic>),
+  );
 
   /// A schema represented by a JSON object, with the version of [schemaId].
   static SupportedSchema ofId(
@@ -178,17 +181,15 @@ final Map<String, SupportedSchema> ieeeSchemas = {
     DescriptiveStatistic.QUINTILE_3RD,
     DescriptiveStatistic.QUINTILE_4TH,
   }),
-  'descriptive-statistic-denominator': SupportedSchema.enumeration(
-    SchemaVersion.V1_0,
-    {
-      DescriptiveStatisticDenominator.DAY,
-      DescriptiveStatisticDenominator.WEEK,
-      DescriptiveStatisticDenominator.MONTH,
-      DescriptiveStatisticDenominator.EPISODE,
-      DescriptiveStatisticDenominator.MEAL,
-      DescriptiveStatisticDenominator.SESSION,
-    },
-  ),
+  'descriptive-statistic-denominator':
+      SupportedSchema.enumeration(SchemaVersion.V1_0, {
+        DescriptiveStatisticDenominator.DAY,
+        DescriptiveStatisticDenominator.WEEK,
+        DescriptiveStatisticDenominator.MONTH,
+        DescriptiveStatisticDenominator.EPISODE,
+        DescriptiveStatisticDenominator.MEAL,
+        DescriptiveStatisticDenominator.SESSION,
+      }),
   'unit-value': SupportedSchema.ofId(UnitValue.SCHEMA_ID, UnitValue.fromJson),
   'unit-value-range': SupportedSchema.ofId(
     UnitValueRange.SCHEMA_ID,
@@ -294,42 +295,36 @@ final Map<String, SupportedSchema> omhSchemas = {
     BodyLocation.LEFT_WRIST,
     BodyLocation.RIGHT_WRIST,
   }),
-  'temporal-relationship-to-physical-activity': SupportedSchema.enumeration(
-    SchemaVersion.V1_0,
-    {
-      TemporalRelationshipToPhysicalActivity.AT_REST,
-      TemporalRelationshipToPhysicalActivity.ACTIVE,
-      TemporalRelationshipToPhysicalActivity.BEFORE_EXERCISE,
-      TemporalRelationshipToPhysicalActivity.AFTER_EXERCISE,
-      TemporalRelationshipToPhysicalActivity.DURING_EXERCISE,
-    },
-  ),
-  'temporal-relationship-to-sleep': SupportedSchema.enumeration(
-    SchemaVersion.V1_0,
-    {
-      TemporalRelationshipToSleep.BEFORE_SLEEPING,
-      TemporalRelationshipToSleep.DURING_SLEEPING,
-      TemporalRelationshipToSleep.ON_WAKING,
-    },
-  ),
-  'temporal-relationship-to-meal': SupportedSchema.enumeration(
-    SchemaVersion.V1_2,
-    {
-      TemporalRelationshipToMeal.FASTING,
-      TemporalRelationshipToMeal.NOT_FASTING,
-      TemporalRelationshipToMeal.BEFORE_MEAL,
-      TemporalRelationshipToMeal.AFTER_MEAL,
-      TemporalRelationshipToMeal.BEORE_BREAKFAST,
-      TemporalRelationshipToMeal.AFTER_BREAKFAST,
-      TemporalRelationshipToMeal.BEFORE_LUNCH,
-      TemporalRelationshipToMeal.AFTER_LUNCH,
-      TemporalRelationshipToMeal.BEFORE_DINNER,
-      TemporalRelationshipToMeal.AFTER_DINNER,
-      TemporalRelationshipToMeal.TWO_HOURS_POST_PRANDIAL,
-      TemporalRelationshipToMeal.WITH_MEAL,
-      TemporalRelationshipToMeal.WITH_FOOD,
-    },
-  ),
+  'temporal-relationship-to-physical-activity':
+      SupportedSchema.enumeration(SchemaVersion.V1_0, {
+        TemporalRelationshipToPhysicalActivity.AT_REST,
+        TemporalRelationshipToPhysicalActivity.ACTIVE,
+        TemporalRelationshipToPhysicalActivity.BEFORE_EXERCISE,
+        TemporalRelationshipToPhysicalActivity.AFTER_EXERCISE,
+        TemporalRelationshipToPhysicalActivity.DURING_EXERCISE,
+      }),
+  'temporal-relationship-to-sleep':
+      SupportedSchema.enumeration(SchemaVersion.V1_0, {
+        TemporalRelationshipToSleep.BEFORE_SLEEPING,
+        TemporalRelationshipToSleep.DURING_SLEEPING,
+        TemporalRelationshipToSleep.ON_WAKING,
+      }),
+  'temporal-relationship-to-meal':
+      SupportedSchema.enumeration(SchemaVersion.V1_2, {
+        TemporalRelationshipToMeal.FASTING,
+        TemporalRelationshipToMeal.NOT_FASTING,
+        TemporalRelationshipToMeal.BEFORE_MEAL,
+        TemporalRelationshipToMeal.AFTER_MEAL,
+        TemporalRelationshipToMeal.BEORE_BREAKFAST,
+        TemporalRelationshipToMeal.AFTER_BREAKFAST,
+        TemporalRelationshipToMeal.BEFORE_LUNCH,
+        TemporalRelationshipToMeal.AFTER_LUNCH,
+        TemporalRelationshipToMeal.BEFORE_DINNER,
+        TemporalRelationshipToMeal.AFTER_DINNER,
+        TemporalRelationshipToMeal.TWO_HOURS_POST_PRANDIAL,
+        TemporalRelationshipToMeal.WITH_MEAL,
+        TemporalRelationshipToMeal.WITH_FOOD,
+      }),
   'part-of-day': SupportedSchema.enumeration(SchemaVersion.V1_0, {
     PartOfDay.MORNING,
     PartOfDay.AFTERNOON,

@@ -21,10 +21,20 @@ final HttpClient _client = HttpClient()
   // The IEEE GitLab server rejects the default Dart user agent (HTTP 418).
   ..userAgent = 'openmhealth-schemas-tests';
 
-/// Gets the text at [url], retrying once.
+/// Gets the text at [url].
+///
+/// Upstream servers occasionally reset connections, e.g. when many tests
+/// fetch files at the same time. Hence, failed requests are retried up to
+/// three times, with an increasing delay.
 Future<String> getText(Uri url) async {
+  const attempts = 4;
   Object? lastError;
-  for (var attempt = 1; attempt <= 2; attempt++) {
+  for (var attempt = 1; attempt <= attempts; attempt++) {
+    if (attempt > 1) {
+      await Future<void>.delayed(
+        Duration(milliseconds: 500 * (1 << (attempt - 2))),
+      );
+    }
     try {
       final request = await _client.getUrl(url);
       final response = await request.close().timeout(

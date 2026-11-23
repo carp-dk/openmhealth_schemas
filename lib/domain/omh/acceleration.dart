@@ -6,19 +6,29 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_acceleration">acceleration</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class Acceleration extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.ACCELERATION, SchemaVersion.V2_0);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.ACCELERATION,
+    SchemaVersion.V2_0,
+  );
 
-  AccelerationUnitValue acceleration_x;
-  AccelerationUnitValue acceleration_y;
-  AccelerationUnitValue? acceleration_z;
-  String? sensor_body_location;
+  /// The acceleration along the x axis.
+  AccelerationUnitValue accelerationX;
+
+  /// The acceleration along the y axis.
+  AccelerationUnitValue accelerationY;
+
+  /// The acceleration along the z axis.
+  AccelerationUnitValue? accelerationZ;
+
+  /// The location on the body of the sensor. See [BodyLocation].
+  String? sensorBodyLocation;
 
   Acceleration({
-    required this.acceleration_x,
-    required this.acceleration_y,
-    this.acceleration_z,
-    this.sensor_body_location,
+    required this.accelerationX,
+    required this.accelerationY,
+    this.accelerationZ,
+    this.sensorBodyLocation,
   });
 
   factory Acceleration.fromJson(Map<String, dynamic> json) =>
@@ -36,13 +46,14 @@ class Acceleration extends Measure {
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_acceleration-unit-value">acceleration-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class AccelerationUnitValue extends UnitValue {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      'acceleration-unit-value', SchemaVersion.V1_1);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    'acceleration-unit-value',
+    SchemaVersion.V1_1,
+  );
 
-  AccelerationUnitValue({
-    required String unit,
-    required double value,
-  }) : super(unit, value);
+  AccelerationUnitValue({required String unit, required double value})
+    : super(unit, value);
 
   factory AccelerationUnitValue.fromJson(Map<String, dynamic> json) =>
       _$AccelerationUnitValueFromJson(json);

@@ -285,7 +285,7 @@ To read your measure as the body of a data point, register its `fromJson` functi
 
 ```dart
 class LightLevel extends Measure {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
     'example',
     'light-level',
     SchemaVersion.V1_0,

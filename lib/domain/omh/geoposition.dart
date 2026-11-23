@@ -6,8 +6,11 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_geoposition">geoposition</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class Geoposition extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.GEOPOSITION, SchemaVersion.V2_0);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.GEOPOSITION,
+    SchemaVersion.V2_0,
+  );
 
   PlaneAngleUnitValue latitude;
   PlaneAngleUnitValue longitude;
@@ -49,13 +52,14 @@ class Geoposition extends Measure {
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_plane-angle-unit-value">plane-angle-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class PlaneAngleUnitValue extends UnitValue {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      'plane-angle-unit-value', SchemaVersion.V1_1);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    'plane-angle-unit-value',
+    SchemaVersion.V1_1,
+  );
 
-  PlaneAngleUnitValue({
-    required String unit,
-    required double value,
-  }) : super(unit, value);
+  PlaneAngleUnitValue({required String unit, required double value})
+    : super(unit, value);
 
   factory PlaneAngleUnitValue.fromJson(Map<String, dynamic> json) =>
       _$PlaneAngleUnitValueFromJson(json);
