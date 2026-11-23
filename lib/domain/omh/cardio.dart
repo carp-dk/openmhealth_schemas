@@ -7,8 +7,11 @@ part of '../../openmhealth_schemas.dart';
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_heart-rate">heart-rate</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class HeartRate extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.HEART_RATE, SchemaVersion.V1_0);
+  static SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.HEART_RATE,
+    SchemaVersion.V1_0,
+  );
 
   HeartRateUnitValue heartRate;
   String? temporalRelationshipToPhysicalActivity;
@@ -37,8 +40,11 @@ class HeartRate extends Measure {
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_rr-interval">rr-interval</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class RrInterval extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.RR_INTERVAL, SchemaVersion.V1_0);
+  static SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.RR_INTERVAL,
+    SchemaVersion.V1_0,
+  );
 
   RrInterUnitValue rrInterval;
   String? temporalRelationshipToPhysicalActivity;
@@ -63,12 +69,13 @@ class RrInterval extends Measure {
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class HeartRateUnitValue extends UnitValue {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE, 'kcal-unit-value', SchemaVersion.V1_0);
+    SchemaSupport.OMH_NAMESPACE,
+    'kcal-unit-value',
+    SchemaVersion.V1_0,
+  );
 
-  HeartRateUnitValue({
-    required String unit,
-    required double value,
-  }) : super(unit, value);
+  HeartRateUnitValue({required String unit, required double value})
+    : super(unit, value);
 
   factory HeartRateUnitValue.fromJson(Map<String, dynamic> json) =>
       _$HeartRateUnitValueFromJson(json);
@@ -80,16 +87,17 @@ class HeartRateUnitValue extends UnitValue {
 }
 
 /// OMH version 1.0
-/// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_kcal-unit-value">kcal-unit-value</a>
+/// See <a href="https://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_rr-interval">rr-interval</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class RrInterUnitValue extends UnitValue {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE, 'kcal-unit-value', SchemaVersion.V1_0);
+    SchemaSupport.OMH_NAMESPACE,
+    'kcal-unit-value',
+    SchemaVersion.V1_0,
+  );
 
-  RrInterUnitValue({
-    required String unit,
-    required double value,
-  }) : super(unit, value);
+  RrInterUnitValue({required String unit, required double value})
+    : super(unit, value);
 
   factory RrInterUnitValue.fromJson(Map<String, dynamic> json) =>
       _$RrInterUnitValueFromJson(json);
