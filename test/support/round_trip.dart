@@ -6,8 +6,13 @@ import 'dart:convert';
 
 import 'package:test/test.dart';
 
+import 'validation.dart';
+
 /// Parses a JSON value into a Dart object which can be encoded as JSON again.
 typedef JsonParser = Object Function(Object? json);
+
+/// Validates a JSON value against its schema.
+typedef JsonValidator = Future<List<SchemaError>> Function(Object? json);
 
 /// A known issue with an upstream test file, which is expected to make the
 /// round trip fail in a specific way.
@@ -25,24 +30,33 @@ class KnownIssue {
   /// after the round trip.
   final Set<String> ignoredDifferences;
 
+  /// JSON pointers (e.g. `/header/external_datasheets/0/datasheet_reference`)
+  /// at which the generated JSON is expected not to comply with the schema.
+  final Set<String> ignoredSchemaErrors;
+
   const KnownIssue(
     this.reason, {
     this.parseFails = false,
     this.ignoredDifferences = const {},
+    this.ignoredSchemaErrors = const {},
   });
 }
 
 /// Checks that [input] from [source] can be read using [parse], and that
 /// generating JSON from the result gives the same JSON as the [input].
 ///
+/// If a [validate] function is given, the generated JSON must also comply
+/// with its schema.
+///
 /// The generated JSON is then read and generated again, which must give
 /// exactly the same JSON.
-void checkRoundTrip(
+Future<void> checkRoundTrip(
   Uri source,
   Object? input,
   JsonParser parse, {
+  JsonValidator? validate,
   KnownIssue? knownIssue,
-}) {
+}) async {
   if (knownIssue != null && knownIssue.parseFails) {
     expect(
       () => parse(input),
@@ -73,6 +87,27 @@ void checkRoundTrip(
           'Known issue "${knownIssue!.reason}" seems to be fixed in $source. '
           'Remove it from the known issues.',
     );
+  }
+
+  // Validate the generated JSON against its schema.
+  if (validate != null) {
+    final ignoredErrors =
+        knownIssue?.ignoredSchemaErrors ?? const <String>{};
+    final errors = await validate(generated);
+    expect(
+      errors.where((e) => !ignoredErrors.contains(e.path)).toList(),
+      isEmpty,
+      reason: 'The JSON generated from $source does not comply with its schema',
+    );
+    for (final path in ignoredErrors) {
+      expect(
+        errors.map((e) => e.path),
+        contains(path),
+        reason:
+            'Known issue "${knownIssue!.reason}" seems to be fixed in $source. '
+            'Remove it from the known issues.',
+      );
+    }
   }
 
   // Read back the generated JSON and generate again.

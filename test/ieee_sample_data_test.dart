@@ -2,8 +2,9 @@
 /// https://opensource.ieee.org/omh/1752/-/tree/main/sample_data
 ///
 /// For each sample file, the JSON is read into the Dart class of its schema,
-/// JSON is generated again, and compared to the sample. In addition, the
-/// schemas of the repository are checked to be supported by this package.
+/// JSON is generated again, compared to the sample, and validated against the
+/// schema. In addition, the schemas of the repository are checked to be
+/// supported by this package.
 ///
 /// These tests need network access. Skip them with `dart test -x remote`.
 @Tags(['remote'])
@@ -14,9 +15,37 @@ import 'package:test/test.dart';
 import 'support/remote.dart';
 import 'support/round_trip.dart';
 import 'support/schemas.dart';
+import 'support/validation.dart';
+
+/// The IEEE metadata samples use placeholders such as
+/// "iri-of-some-study-protocol" as datasheet references, which are not valid
+/// IRIs as required by the header schema.
+const String _placeholderIris =
+    'the datasheet references are placeholders, not valid IRIs';
+const Set<String> _datasheetReferences = {
+  '/header/external_datasheets/0/datasheet_reference',
+  '/header/external_datasheets/1/datasheet_reference',
+};
 
 /// Known issues in the IEEE sample data, by path.
 const Map<String, KnownIssue> knownIssues = {
+  'sample_data/metadata/data-point-sample-data-ambient-temp.json': KnownIssue(
+    _placeholderIris,
+    ignoredSchemaErrors: _datasheetReferences,
+  ),
+  'sample_data/metadata/data-point-sample-data-phys-activity.json': KnownIssue(
+    _placeholderIris,
+    ignoredSchemaErrors: _datasheetReferences,
+  ),
+  'sample_data/metadata/data-series-sample-series-ambient-temp.json':
+      KnownIssue(_placeholderIris, ignoredSchemaErrors: _datasheetReferences),
+  'sample_data/metadata/header-sample-data.json': KnownIssue(
+    _placeholderIris,
+    ignoredSchemaErrors: {
+      '/external_datasheets/0/datasheet_reference',
+      '/external_datasheets/1/datasheet_reference',
+    },
+  ),
   'sample_data/environment/ambient-temperature-sample-data-two.json':
       KnownIssue(
         'invalid date-time "2013-02-05T012:25:00Z" (three digit hour)',
@@ -91,6 +120,13 @@ Future<void> main() async {
       if (excluded(path) == null) path: Ieee.raw(path),
   });
 
+  final validator = SchemaValidator(schemas);
+  JsonValidator validatorFor(String schema) => switch (schema) {
+    'data-point' || 'data-series' => (json) =>
+        validator.validateDataPoint(json! as Map<String, dynamic>),
+    _ => (json) => validator.validate(SchemaValidator.ieeeUrl(schema), json),
+  };
+
   group('IEEE sample data', () {
     for (final path in samples) {
       test(
@@ -103,10 +139,11 @@ Future<void> main() async {
             isNotNull,
             reason: 'No Dart class for the schema "$schema" of $path',
           );
-          checkRoundTrip(
+          await checkRoundTrip(
             Ieee.raw(path),
             withoutDescription(await data[path]),
             supported!.parse,
+            validate: validatorFor(schema!),
             knownIssue: knownIssues[path],
           );
         },
