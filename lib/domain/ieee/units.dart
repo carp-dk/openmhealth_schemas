@@ -57,15 +57,149 @@ class SpeedUnit extends Unit {
   SpeedUnit(super.schemaValue);
 }
 
+/// A percentage.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/percent-unit-value-1.0.json">percent-unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class PercentUnitValue extends UnitValue {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'percent-unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  /// Creates a [PercentUnitValue] of [value] percent.
+  PercentUnitValue({required double value, String unit = PercentUnit.PERCENT})
+    : super(unit, value);
+
+  factory PercentUnitValue.fromJson(Map<String, dynamic> json) =>
+      _$PercentUnitValueFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$PercentUnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// A unit of percentage.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/percent-unit-value-1.0.json">percent-unit-value</a>
+class PercentUnit extends Unit {
+  static const String PERCENT = '%';
+
+  PercentUnit(super.schemaValue);
+}
+
+/// A sound level.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/sound-unit-value-1.0.json">sound-unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class SoundUnitValue extends UnitValue {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'sound-unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  SoundUnitValue({required String unit, required double value})
+    : super(unit, value);
+
+  factory SoundUnitValue.fromJson(Map<String, dynamic> json) =>
+      _$SoundUnitValueFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$SoundUnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// A unit of sound.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/sound-unit-value-1.0.json">sound-unit-value</a>
+class SoundUnit extends Unit {
+  static const String DECIBEL = 'dB';
+  static const String A_WEIGHTED_DECIBEL = 'dBA';
+
+  SoundUnit(super.schemaValue);
+}
+
+/// A range of numerical values with a unit of measure.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/unit-value-range-1.0.json">unit-value-range</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class UnitValueRange implements SchemaSupport {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'unit-value-range',
+    SchemaVersion.V1_0,
+  );
+
+  /// The lower boundary of the range.
+  final double lowValue;
+
+  /// The upper boundary of the range.
+  final double highValue;
+
+  /// The unit of measure of the range.
+  final String unit;
+
+  UnitValueRange({
+    required this.lowValue,
+    required this.highValue,
+    required this.unit,
+  });
+
+  factory UnitValueRange.fromJson(Map<String, dynamic> json) =>
+      _$UnitValueRangeFromJson(json);
+  Map<String, dynamic> toJson() => _$UnitValueRangeToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+
+  @override
+  String toString() =>
+      '${getSchemaId()} : {unit: $unit, low_value: $lowValue, high_value: $highValue}';
+}
+
+/// A range of durations, e.g., 7.6 to 8.1 hours. See [DurationUnit].
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/duration-unit-value-range-1.0.json">duration-unit-value-range</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class DurationUnitValueRange extends UnitValueRange {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'duration-unit-value-range',
+    SchemaVersion.V1_0,
+  );
+
+  DurationUnitValueRange({
+    required super.lowValue,
+    required super.highValue,
+    required super.unit,
+  });
+
+  factory DurationUnitValueRange.fromJson(Map<String, dynamic> json) =>
+      _$DurationUnitValueRangeFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$DurationUnitValueRangeToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
 /// The frequency of an event, either
 ///
 ///  * in hertz, using [value] and [unit] (see [FrequencyUnitValue.hertz]), or
 ///  * as a number of times over a duration, using [numberOfTimes] and
 ///    [timeWindow] (see [FrequencyUnitValue.times]). For example, "once every
-///    14 days" is 1 time in a time window of 14 days.
-///
-/// Note that IEEE 1752.1 also allows the time window to be a duration range.
-/// This is not supported yet.
+///    14 days" is 1 time in a time window of 14 days. The time window is either
+///    a [DurationUnitValue] or a [DurationUnitValueRange].
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/frequency-unit-value-1.0.json">frequency-unit-value</a>
@@ -87,12 +221,14 @@ class FrequencyUnitValue implements SchemaSupport {
   final double? numberOfTimes;
 
   /// The time window in which the event occurs [numberOfTimes].
-  final DurationUnitValue? timeWindow;
+  /// Either a [DurationUnitValue] or a [DurationUnitValueRange].
+  @JsonKey(fromJson: _timeWindowFromJson)
+  final Object? timeWindow;
 
   /// Creates a [FrequencyUnitValue]. Either [value] and [unit], or
   /// [numberOfTimes] and [timeWindow] must be specified.
-  /// Consider using the [FrequencyUnitValue.hertz] or [FrequencyUnitValue.times]
-  /// constructors instead.
+  /// Consider using the [FrequencyUnitValue.hertz], [FrequencyUnitValue.times],
+  /// or [FrequencyUnitValue.timesInRange] constructors instead.
   FrequencyUnitValue({
     this.value,
     this.unit,
@@ -102,17 +238,37 @@ class FrequencyUnitValue implements SchemaSupport {
          (value != null && unit != null) !=
              (numberOfTimes != null && timeWindow != null),
          'Specify either value and unit, or numberOfTimes and timeWindow.',
+       ),
+       assert(
+         timeWindow == null ||
+             timeWindow is DurationUnitValue ||
+             timeWindow is DurationUnitValueRange,
+         'The time window must be a DurationUnitValue or a DurationUnitValueRange.',
        );
 
   /// A frequency of [value] hertz.
   FrequencyUnitValue.hertz(double value)
     : this(value: value, unit: FrequencyUnit.HERTZ);
 
-  /// A frequency of [numberOfTimes] in a [timeWindow].
+  /// A frequency of [numberOfTimes] in a [timeWindow], e.g., 2 times in 1 day.
   FrequencyUnitValue.times({
     required double numberOfTimes,
     required DurationUnitValue timeWindow,
   }) : this(numberOfTimes: numberOfTimes, timeWindow: timeWindow);
+
+  /// A frequency of [numberOfTimes] in a [timeWindow] range, e.g., 1 time in
+  /// 3 to 4 hours.
+  FrequencyUnitValue.timesInRange({
+    required double numberOfTimes,
+    required DurationUnitValueRange timeWindow,
+  }) : this(numberOfTimes: numberOfTimes, timeWindow: timeWindow);
+
+  static Object? _timeWindowFromJson(Object? json) {
+    if (json is! Map<String, dynamic>) return null;
+    return json.containsKey('low_value')
+        ? DurationUnitValueRange.fromJson(json)
+        : DurationUnitValue.fromJson(json);
+  }
 
   factory FrequencyUnitValue.fromJson(Map<String, dynamic> json) =>
       _$FrequencyUnitValueFromJson(json);
@@ -130,4 +286,17 @@ class FrequencyUnit extends Unit {
   static const String HERTZ = 'Hz';
 
   FrequencyUnit(super.schemaValue);
+}
+
+/// The posture of the subject (for example, during a measurement).
+/// This value set is not exhaustive. Values can be added as needed, preferably
+/// from the Body position finding hierarchy of SNOMED CT.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/body-posture-1.0.json">body-posture</a>
+class BodyPosture {
+  static const String SITTING = 'sitting';
+  static const String LYING_DOWN = 'lying down';
+  static const String STANDING = 'standing';
+  static const String SEMI_RECUMBENT = 'semi-recumbent';
 }

@@ -65,6 +65,7 @@ export 'openmhealth_schemas.dart'
 
 part 'domain/ieee/metadata.dart';
 part 'domain/ieee/activity.dart';
+part 'domain/ieee/sleep.dart';
 part 'domain/ieee/survey.dart';
 part 'domain/ieee/units.dart';
 part 'domain/ieee/statistics.dart';

@@ -16,6 +16,16 @@ Map<String, dynamic> _$DataPointToJson(DataPoint instance) => <String, dynamic>{
   'body': instance.body,
 };
 
+DataSeries _$DataSeriesFromJson(Map<String, dynamic> json) => DataSeries._(
+  DataPointHeader.fromJson(json['header'] as Map<String, dynamic>),
+  (json['body'] as List<dynamic>)
+      .map((e) => Measure.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$DataSeriesToJson(DataSeries instance) =>
+    <String, dynamic>{'header': instance.header, 'body': instance.body};
+
 DataPointHeader _$DataPointHeaderFromJson(Map<String, dynamic> json) =>
     DataPointHeader(
       uuid: json['uuid'] as String,
@@ -132,6 +142,474 @@ Map<String, dynamic> _$PhysicalActivityToJson(PhysicalActivity instance) =>
       'descriptive_statistic_denominator':
           ?instance.descriptiveStatisticDenominator,
     };
+
+ApneaHypopneaIndex _$ApneaHypopneaIndexFromJson(Map<String, dynamic> json) =>
+    ApneaHypopneaIndex(
+      apneaHypopneaIndex: UnitValue.fromJson(
+        json['apnea_hypopnea_index'] as Map<String, dynamic>,
+      ),
+      effectiveTimeFrame: TimeFrame.fromJson(
+        json['effective_time_frame'] as Map<String, dynamic>,
+      ),
+      descriptiveStatistic: json['descriptive_statistic'] as String?,
+      descriptiveStatisticDenominator:
+          json['descriptive_statistic_denominator'] as String?,
+    )..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$ApneaHypopneaIndexToJson(ApneaHypopneaIndex instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'apnea_hypopnea_index': instance.apneaHypopneaIndex,
+      'descriptive_statistic_denominator':
+          ?instance.descriptiveStatisticDenominator,
+    };
+
+ArousalIndex _$ArousalIndexFromJson(Map<String, dynamic> json) => ArousalIndex(
+  arousalIndex: UnitValue.fromJson(
+    json['arousal_index'] as Map<String, dynamic>,
+  ),
+  effectiveTimeFrame: TimeFrame.fromJson(
+    json['effective_time_frame'] as Map<String, dynamic>,
+  ),
+  isMainSleep: json['is_main_sleep'] as bool?,
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+  descriptiveStatisticDenominator:
+      json['descriptive_statistic_denominator'] as String?,
+)..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$ArousalIndexToJson(ArousalIndex instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'arousal_index': instance.arousalIndex,
+      'is_main_sleep': ?instance.isMainSleep,
+      'descriptive_statistic_denominator':
+          ?instance.descriptiveStatisticDenominator,
+    };
+
+DeepSleep _$DeepSleepFromJson(Map<String, dynamic> json) => DeepSleep(
+  deepSleepDuration: DurationUnitValue.fromJson(
+    json['deep_sleep_duration'] as Map<String, dynamic>,
+  ),
+  totalSleepTime: DurationUnitValue.fromJson(
+    json['total_sleep_time'] as Map<String, dynamic>,
+  ),
+  effectiveTimeFrame: TimeFrame.fromJson(
+    json['effective_time_frame'] as Map<String, dynamic>,
+  ),
+  deepSleepPercentage: json['deep_sleep_percentage'] == null
+      ? null
+      : PercentUnitValue.fromJson(
+          json['deep_sleep_percentage'] as Map<String, dynamic>,
+        ),
+  isMainSleep: json['is_main_sleep'] as bool?,
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+  descriptiveStatisticDenominator:
+      json['descriptive_statistic_denominator'] as String?,
+)..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$DeepSleepToJson(DeepSleep instance) => <String, dynamic>{
+  'effective_time_frame': ?instance.effectiveTimeFrame,
+  'descriptive_statistic': ?instance.descriptiveStatistic,
+  'user_notes': ?instance.userNotes,
+  'deep_sleep_duration': instance.deepSleepDuration,
+  'total_sleep_time': instance.totalSleepTime,
+  'deep_sleep_percentage': ?instance.deepSleepPercentage,
+  'is_main_sleep': ?instance.isMainSleep,
+  'descriptive_statistic_denominator':
+      ?instance.descriptiveStatisticDenominator,
+};
+
+LightSleep _$LightSleepFromJson(Map<String, dynamic> json) => LightSleep(
+  lightSleepDuration: DurationUnitValue.fromJson(
+    json['light_sleep_duration'] as Map<String, dynamic>,
+  ),
+  totalSleepTime: DurationUnitValue.fromJson(
+    json['total_sleep_time'] as Map<String, dynamic>,
+  ),
+  effectiveTimeFrame: TimeFrame.fromJson(
+    json['effective_time_frame'] as Map<String, dynamic>,
+  ),
+  lightSleepPercentage: json['light_sleep_percentage'] == null
+      ? null
+      : PercentUnitValue.fromJson(
+          json['light_sleep_percentage'] as Map<String, dynamic>,
+        ),
+  isMainSleep: json['is_main_sleep'] as bool?,
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+  descriptiveStatisticDenominator:
+      json['descriptive_statistic_denominator'] as String?,
+)..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$LightSleepToJson(LightSleep instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'light_sleep_duration': instance.lightSleepDuration,
+      'total_sleep_time': instance.totalSleepTime,
+      'light_sleep_percentage': ?instance.lightSleepPercentage,
+      'is_main_sleep': ?instance.isMainSleep,
+      'descriptive_statistic_denominator':
+          ?instance.descriptiveStatisticDenominator,
+    };
+
+SleepEpisode _$SleepEpisodeFromJson(Map<String, dynamic> json) =>
+    SleepEpisode(
+        effectiveTimeFrame: TimeFrame.fromJson(
+          json['effective_time_frame'] as Map<String, dynamic>,
+        ),
+        latencyToSleepOnset: json['latency_to_sleep_onset'] == null
+            ? null
+            : DurationUnitValue.fromJson(
+                json['latency_to_sleep_onset'] as Map<String, dynamic>,
+              ),
+        latencyToArising: json['latency_to_arising'] == null
+            ? null
+            : DurationUnitValue.fromJson(
+                json['latency_to_arising'] as Map<String, dynamic>,
+              ),
+        totalSleepTime: json['total_sleep_time'] == null
+            ? null
+            : DurationUnitValue.fromJson(
+                json['total_sleep_time'] as Map<String, dynamic>,
+              ),
+        lightSleepDuration: json['light_sleep_duration'] == null
+            ? null
+            : DurationUnitValue.fromJson(
+                json['light_sleep_duration'] as Map<String, dynamic>,
+              ),
+        deepSleepDuration: json['deep_sleep_duration'] == null
+            ? null
+            : DurationUnitValue.fromJson(
+                json['deep_sleep_duration'] as Map<String, dynamic>,
+              ),
+        remSleepDuration: json['rem_sleep_duration'] == null
+            ? null
+            : DurationUnitValue.fromJson(
+                json['rem_sleep_duration'] as Map<String, dynamic>,
+              ),
+        wakeAfterSleepOnset: json['wake_after_sleep_onset'] == null
+            ? null
+            : DurationUnitValue.fromJson(
+                json['wake_after_sleep_onset'] as Map<String, dynamic>,
+              ),
+        numberOfAwakenings: (json['number_of_awakenings'] as num?)?.toInt(),
+        isMainSleep: json['is_main_sleep'] as bool?,
+        sleepEfficiencyPercentage: json['sleep_efficiency_percentage'] == null
+            ? null
+            : PercentUnitValue.fromJson(
+                json['sleep_efficiency_percentage'] as Map<String, dynamic>,
+              ),
+      )
+      ..descriptiveStatistic = json['descriptive_statistic'] as String?
+      ..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$SleepEpisodeToJson(SleepEpisode instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'latency_to_sleep_onset': ?instance.latencyToSleepOnset,
+      'latency_to_arising': ?instance.latencyToArising,
+      'total_sleep_time': ?instance.totalSleepTime,
+      'light_sleep_duration': ?instance.lightSleepDuration,
+      'deep_sleep_duration': ?instance.deepSleepDuration,
+      'rem_sleep_duration': ?instance.remSleepDuration,
+      'wake_after_sleep_onset': ?instance.wakeAfterSleepOnset,
+      'number_of_awakenings': ?instance.numberOfAwakenings,
+      'is_main_sleep': ?instance.isMainSleep,
+      'sleep_efficiency_percentage': ?instance.sleepEfficiencyPercentage,
+    };
+
+SleepOnsetLatency _$SleepOnsetLatencyFromJson(Map<String, dynamic> json) =>
+    SleepOnsetLatency(
+      sleepOnsetLatency: DurationUnitValue.fromJson(
+        json['sleep_onset_latency'] as Map<String, dynamic>,
+      ),
+      effectiveTimeFrame: TimeFrame.fromJson(
+        json['effective_time_frame'] as Map<String, dynamic>,
+      ),
+      isMainSleep: json['is_main_sleep'] as bool?,
+      descriptiveStatistic: json['descriptive_statistic'] as String?,
+      descriptiveStatisticDenominator:
+          json['descriptive_statistic_denominator'] as String?,
+    )..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$SleepOnsetLatencyToJson(SleepOnsetLatency instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'sleep_onset_latency': instance.sleepOnsetLatency,
+      'is_main_sleep': ?instance.isMainSleep,
+      'descriptive_statistic_denominator':
+          ?instance.descriptiveStatisticDenominator,
+    };
+
+SleepStageSummary _$SleepStageSummaryFromJson(Map<String, dynamic> json) =>
+    SleepStageSummary(
+        sleepStageSummary: SleepStageSummaryDetails.fromJson(
+          json['sleep_stage_summary'] as Map<String, dynamic>,
+        ),
+        effectiveTimeFrame: TimeFrame.fromJson(
+          json['effective_time_frame'] as Map<String, dynamic>,
+        ),
+        sleepStageEpisodes: (json['sleep_stage_episodes'] as List<dynamic>?)
+            ?.map((e) => SleepStageEpisode.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        isMainSleep: json['is_main_sleep'] as bool?,
+      )
+      ..descriptiveStatistic = json['descriptive_statistic'] as String?
+      ..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$SleepStageSummaryToJson(SleepStageSummary instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'sleep_stage_summary': instance.sleepStageSummary,
+      'sleep_stage_episodes': ?instance.sleepStageEpisodes,
+      'is_main_sleep': ?instance.isMainSleep,
+    };
+
+SleepStageSummaryDetails _$SleepStageSummaryDetailsFromJson(
+  Map<String, dynamic> json,
+) => SleepStageSummaryDetails(
+  totalSleepTime: DurationUnitValue.fromJson(
+    json['total_sleep_time'] as Map<String, dynamic>,
+  ),
+  sleepEfficiencyPercentage: json['sleep_efficiency_percentage'] == null
+      ? null
+      : PercentUnitValue.fromJson(
+          json['sleep_efficiency_percentage'] as Map<String, dynamic>,
+        ),
+  latencyToSleepOnset: json['latency_to_sleep_onset'] == null
+      ? null
+      : DurationUnitValue.fromJson(
+          json['latency_to_sleep_onset'] as Map<String, dynamic>,
+        ),
+  latencyToArising: json['latency_to_arising'] == null
+      ? null
+      : DurationUnitValue.fromJson(
+          json['latency_to_arising'] as Map<String, dynamic>,
+        ),
+  remSleepDuration: json['rem_sleep_duration'] == null
+      ? null
+      : DurationUnitValue.fromJson(
+          json['rem_sleep_duration'] as Map<String, dynamic>,
+        ),
+  remSleepEpisodeCount: (json['rem_sleep_episode_count'] as num?)?.toInt(),
+  remSleepPercentage: json['rem_sleep_percentage'] == null
+      ? null
+      : PercentUnitValue.fromJson(
+          json['rem_sleep_percentage'] as Map<String, dynamic>,
+        ),
+  lightSleepDuration: json['light_sleep_duration'] == null
+      ? null
+      : DurationUnitValue.fromJson(
+          json['light_sleep_duration'] as Map<String, dynamic>,
+        ),
+  lightSleepEpisodeCount: (json['light_sleep_episode_count'] as num?)?.toInt(),
+  lightSleepPercentage: json['light_sleep_percentage'] == null
+      ? null
+      : PercentUnitValue.fromJson(
+          json['light_sleep_percentage'] as Map<String, dynamic>,
+        ),
+  deepSleepDuration: json['deep_sleep_duration'] == null
+      ? null
+      : DurationUnitValue.fromJson(
+          json['deep_sleep_duration'] as Map<String, dynamic>,
+        ),
+  deepSleepEpisodeCount: (json['deep_sleep_episode_count'] as num?)?.toInt(),
+  deepSleepPercentage: json['deep_sleep_percentage'] == null
+      ? null
+      : PercentUnitValue.fromJson(
+          json['deep_sleep_percentage'] as Map<String, dynamic>,
+        ),
+  awakeDuration: json['awake_duration'] == null
+      ? null
+      : DurationUnitValue.fromJson(
+          json['awake_duration'] as Map<String, dynamic>,
+        ),
+  numberOfAwakenings: (json['number_of_awakenings'] as num?)?.toInt(),
+  awakePercentage: json['awake_percentage'] == null
+      ? null
+      : PercentUnitValue.fromJson(
+          json['awake_percentage'] as Map<String, dynamic>,
+        ),
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+  descriptiveStatisticDenominator:
+      json['descriptive_statistic_denominator'] as String?,
+);
+
+Map<String, dynamic> _$SleepStageSummaryDetailsToJson(
+  SleepStageSummaryDetails instance,
+) => <String, dynamic>{
+  'total_sleep_time': instance.totalSleepTime,
+  'sleep_efficiency_percentage': ?instance.sleepEfficiencyPercentage,
+  'latency_to_sleep_onset': ?instance.latencyToSleepOnset,
+  'latency_to_arising': ?instance.latencyToArising,
+  'rem_sleep_duration': ?instance.remSleepDuration,
+  'rem_sleep_episode_count': ?instance.remSleepEpisodeCount,
+  'rem_sleep_percentage': ?instance.remSleepPercentage,
+  'light_sleep_duration': ?instance.lightSleepDuration,
+  'light_sleep_episode_count': ?instance.lightSleepEpisodeCount,
+  'light_sleep_percentage': ?instance.lightSleepPercentage,
+  'deep_sleep_duration': ?instance.deepSleepDuration,
+  'deep_sleep_episode_count': ?instance.deepSleepEpisodeCount,
+  'deep_sleep_percentage': ?instance.deepSleepPercentage,
+  'awake_duration': ?instance.awakeDuration,
+  'number_of_awakenings': ?instance.numberOfAwakenings,
+  'awake_percentage': ?instance.awakePercentage,
+  'descriptive_statistic': ?instance.descriptiveStatistic,
+  'descriptive_statistic_denominator':
+      ?instance.descriptiveStatisticDenominator,
+};
+
+SleepStageEpisode _$SleepStageEpisodeFromJson(Map<String, dynamic> json) =>
+    SleepStageEpisode(
+      sleepStageState: json['sleep_stage_state'] as String,
+      sleepStageTimeFrame: TimeFrame.fromJson(
+        json['sleep_stage_time_frame'] as Map<String, dynamic>,
+      ),
+    );
+
+Map<String, dynamic> _$SleepStageEpisodeToJson(SleepStageEpisode instance) =>
+    <String, dynamic>{
+      'sleep_stage_state': instance.sleepStageState,
+      'sleep_stage_time_frame': instance.sleepStageTimeFrame,
+    };
+
+SnoreIndex _$SnoreIndexFromJson(Map<String, dynamic> json) => SnoreIndex(
+  snoreIndex: UnitValue.fromJson(json['snore_index'] as Map<String, dynamic>),
+  effectiveTimeFrame: TimeFrame.fromJson(
+    json['effective_time_frame'] as Map<String, dynamic>,
+  ),
+  snoreEvents: (json['snore_events'] as List<dynamic>?)
+      ?.map((e) => SnoreEvent.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  isMainSleep: json['is_main_sleep'] as bool?,
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+  descriptiveStatisticDenominator:
+      json['descriptive_statistic_denominator'] as String?,
+)..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$SnoreIndexToJson(SnoreIndex instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'snore_index': instance.snoreIndex,
+      'snore_events': ?instance.snoreEvents,
+      'is_main_sleep': ?instance.isMainSleep,
+      'descriptive_statistic_denominator':
+          ?instance.descriptiveStatisticDenominator,
+    };
+
+SnoreEvent _$SnoreEventFromJson(Map<String, dynamic> json) => SnoreEvent(
+  snored: json['snored'] as bool,
+  snoreTimeFrame: TimeInterval.fromJson(
+    json['snore_time_frame'] as Map<String, dynamic>,
+  ),
+  snoreIntensity: json['snore_intensity'] == null
+      ? null
+      : SoundUnitValue.fromJson(
+          json['snore_intensity'] as Map<String, dynamic>,
+        ),
+  bodyPosture: json['body_posture'] as String?,
+);
+
+Map<String, dynamic> _$SnoreEventToJson(SnoreEvent instance) =>
+    <String, dynamic>{
+      'snored': instance.snored,
+      'snore_time_frame': instance.snoreTimeFrame,
+      'snore_intensity': ?instance.snoreIntensity,
+      'body_posture': ?instance.bodyPosture,
+    };
+
+TimeInBed _$TimeInBedFromJson(Map<String, dynamic> json) => TimeInBed(
+  timeInBed: DurationUnitValue.fromJson(
+    json['time_in_bed'] as Map<String, dynamic>,
+  ),
+  effectiveTimeFrame: TimeFrame.fromJson(
+    json['effective_time_frame'] as Map<String, dynamic>,
+  ),
+  isMainSleep: json['is_main_sleep'] as bool?,
+  descriptiveStatistic: json['descriptive_statistic'] as String?,
+  descriptiveStatisticDenominator:
+      json['descriptive_statistic_denominator'] as String?,
+)..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$TimeInBedToJson(TimeInBed instance) => <String, dynamic>{
+  'effective_time_frame': ?instance.effectiveTimeFrame,
+  'descriptive_statistic': ?instance.descriptiveStatistic,
+  'user_notes': ?instance.userNotes,
+  'time_in_bed': instance.timeInBed,
+  'is_main_sleep': ?instance.isMainSleep,
+  'descriptive_statistic_denominator':
+      ?instance.descriptiveStatisticDenominator,
+};
+
+TotalSleepTime _$TotalSleepTimeFromJson(Map<String, dynamic> json) =>
+    TotalSleepTime(
+      totalSleepTime: DurationUnitValue.fromJson(
+        json['total_sleep_time'] as Map<String, dynamic>,
+      ),
+      effectiveTimeFrame: TimeFrame.fromJson(
+        json['effective_time_frame'] as Map<String, dynamic>,
+      ),
+      sleepEvents: (json['sleep_events'] as List<dynamic>?)
+          ?.map((e) => TimeInterval.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isMainSleep: json['is_main_sleep'] as bool?,
+      descriptiveStatistic: json['descriptive_statistic'] as String?,
+      descriptiveStatisticDenominator:
+          json['descriptive_statistic_denominator'] as String?,
+    )..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$TotalSleepTimeToJson(TotalSleepTime instance) =>
+    <String, dynamic>{
+      'effective_time_frame': ?instance.effectiveTimeFrame,
+      'descriptive_statistic': ?instance.descriptiveStatistic,
+      'user_notes': ?instance.userNotes,
+      'total_sleep_time': instance.totalSleepTime,
+      'sleep_events': ?instance.sleepEvents,
+      'is_main_sleep': ?instance.isMainSleep,
+      'descriptive_statistic_denominator':
+          ?instance.descriptiveStatisticDenominator,
+    };
+
+WakeAfterSleepOnset _$WakeAfterSleepOnsetFromJson(Map<String, dynamic> json) =>
+    WakeAfterSleepOnset(
+      wakeAfterSleepOnset: DurationUnitValue.fromJson(
+        json['wake_after_sleep_onset'] as Map<String, dynamic>,
+      ),
+      effectiveTimeFrame: TimeFrame.fromJson(
+        json['effective_time_frame'] as Map<String, dynamic>,
+      ),
+      awakeningDurations: (json['awakening_durations'] as List<dynamic>?)
+          ?.map((e) => DurationUnitValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      descriptiveStatistic: json['descriptive_statistic'] as String?,
+      descriptiveStatisticDenominator:
+          json['descriptive_statistic_denominator'] as String?,
+    )..userNotes = json['user_notes'] as String?;
+
+Map<String, dynamic> _$WakeAfterSleepOnsetToJson(
+  WakeAfterSleepOnset instance,
+) => <String, dynamic>{
+  'effective_time_frame': ?instance.effectiveTimeFrame,
+  'descriptive_statistic': ?instance.descriptiveStatistic,
+  'user_notes': ?instance.userNotes,
+  'wake_after_sleep_onset': instance.wakeAfterSleepOnset,
+  'awakening_durations': ?instance.awakeningDurations,
+  'descriptive_statistic_denominator':
+      ?instance.descriptiveStatisticDenominator,
+};
 
 Survey _$SurveyFromJson(Map<String, dynamic> json) =>
     Survey(
@@ -256,16 +734,60 @@ SpeedUnitValue _$SpeedUnitValueFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SpeedUnitValueToJson(SpeedUnitValue instance) =>
     <String, dynamic>{'value': instance.value, 'unit': instance.unit};
 
+PercentUnitValue _$PercentUnitValueFromJson(Map<String, dynamic> json) =>
+    PercentUnitValue(
+      value: (json['value'] as num).toDouble(),
+      unit: json['unit'] as String? ?? PercentUnit.PERCENT,
+    );
+
+Map<String, dynamic> _$PercentUnitValueToJson(PercentUnitValue instance) =>
+    <String, dynamic>{'value': instance.value, 'unit': instance.unit};
+
+SoundUnitValue _$SoundUnitValueFromJson(Map<String, dynamic> json) =>
+    SoundUnitValue(
+      unit: json['unit'] as String,
+      value: (json['value'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$SoundUnitValueToJson(SoundUnitValue instance) =>
+    <String, dynamic>{'value': instance.value, 'unit': instance.unit};
+
+UnitValueRange _$UnitValueRangeFromJson(Map<String, dynamic> json) =>
+    UnitValueRange(
+      lowValue: (json['low_value'] as num).toDouble(),
+      highValue: (json['high_value'] as num).toDouble(),
+      unit: json['unit'] as String,
+    );
+
+Map<String, dynamic> _$UnitValueRangeToJson(UnitValueRange instance) =>
+    <String, dynamic>{
+      'low_value': instance.lowValue,
+      'high_value': instance.highValue,
+      'unit': instance.unit,
+    };
+
+DurationUnitValueRange _$DurationUnitValueRangeFromJson(
+  Map<String, dynamic> json,
+) => DurationUnitValueRange(
+  lowValue: (json['low_value'] as num).toDouble(),
+  highValue: (json['high_value'] as num).toDouble(),
+  unit: json['unit'] as String,
+);
+
+Map<String, dynamic> _$DurationUnitValueRangeToJson(
+  DurationUnitValueRange instance,
+) => <String, dynamic>{
+  'low_value': instance.lowValue,
+  'high_value': instance.highValue,
+  'unit': instance.unit,
+};
+
 FrequencyUnitValue _$FrequencyUnitValueFromJson(Map<String, dynamic> json) =>
     FrequencyUnitValue(
       value: (json['value'] as num?)?.toDouble(),
       unit: json['unit'] as String?,
       numberOfTimes: (json['number_of_times'] as num?)?.toDouble(),
-      timeWindow: json['time_window'] == null
-          ? null
-          : DurationUnitValue.fromJson(
-              json['time_window'] as Map<String, dynamic>,
-            ),
+      timeWindow: FrequencyUnitValue._timeWindowFromJson(json['time_window']),
     );
 
 Map<String, dynamic> _$FrequencyUnitValueToJson(FrequencyUnitValue instance) =>

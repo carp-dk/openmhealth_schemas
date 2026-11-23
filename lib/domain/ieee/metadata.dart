@@ -55,6 +55,72 @@ class DataPoint implements SchemaSupport {
   SchemaId getSchemaId() => SCHEMA_ID;
 }
 
+/// An IEEE 1752.1 data series, i.e., a list of measures in the [body] that
+/// share the same [header].
+///
+/// All measures in the [body] must comply with the schema identified by the
+/// [DataPointHeader.schemaId] of the [header].
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/data-series-1.0.json">data-series</a>
+@JsonSerializable(
+  fieldRename: FieldRename.snake,
+  includeIfNull: false,
+  constructor: '_',
+)
+class DataSeries implements SchemaSupport {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'data-series',
+    SchemaVersion.V1_0,
+  );
+
+  DataPointHeader header;
+  List<Measure> body;
+
+  DataSeries._(this.header, this.body);
+
+  /// Creates a [DataSeries] encapsulating the list of measures in [body].
+  ///
+  /// A header is created automatically, with a random (version 4) UUID.
+  /// The schema id of the header is [schemaId] if specified, and otherwise the
+  /// schema id of the first measure in [body]. Hence, if [body] is empty,
+  /// [schemaId] must be specified. If [sourceCreationDateTime] is not
+  /// specified, the current UTC time is used.
+  DataSeries({
+    required this.body,
+    SchemaId? schemaId,
+    DateTime? sourceCreationDateTime,
+    String? modality,
+    FrequencyUnitValue? acquisitionRate,
+    List<ExternalDatasheet>? externalDatasheets,
+  }) : assert(
+         body.isNotEmpty || schemaId != null,
+         'The schema id must be specified for an empty data series.',
+       ),
+       header = DataPointHeader(
+         uuid: const Uuid().v4(),
+         schemaId: schemaId ?? body.first.getSchemaId(),
+         sourceCreationDateTime:
+             sourceCreationDateTime ?? DateTime.now().toUtc(),
+         modality: modality,
+         acquisitionRate: acquisitionRate,
+         externalDatasheets: externalDatasheets,
+       ) {
+    assert(
+      body.every((m) => m.getSchemaId().compareTo(header.schemaId) == 0),
+      'All measures in a data series must have the schema id of the header.',
+    );
+  }
+
+  factory DataSeries.fromJson(Map<String, dynamic> json) =>
+      _$DataSeriesFromJson(json);
+  Map<String, dynamic> toJson() => _$DataSeriesToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
 /// The header of an IEEE 1752.1 data point or data series.
 ///
 /// Compared to the OMH header, the IEEE header has no `user_id` and no
