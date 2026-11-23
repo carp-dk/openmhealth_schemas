@@ -139,7 +139,8 @@ class SchemaVersion implements Comparable<SchemaVersion> {
     if (major > other.major) return 1;
     if (minor < other.minor) return -1;
     if (minor > other.minor) return 1;
-    if (qualifier == null) return 0;
+    if (qualifier == null && other.qualifier == null) return 0;
+    // A version with a qualifier (a pre-release) comes before the release.
     if (qualifier != null && other.qualifier == null) return -1;
     if (qualifier == null && other.qualifier != null) return 1;
 
