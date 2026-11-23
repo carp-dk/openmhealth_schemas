@@ -11,9 +11,7 @@ abstract class Unit extends SchemaEnumValue {
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/unit-value-1.0.json">unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class UnitValue extends Object
-    with AdditionalPropertySupport
-    implements SchemaSupport {
+class UnitValue implements SchemaSupport {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
     'unit-value',

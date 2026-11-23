@@ -1,11 +1,21 @@
 part of '../openmhealth_schemas.dart';
 
-/// A base class for OMH measures that provides an extensible builder for
-/// common properties.
+/// The base class for all IEEE 1752.1 and OMH measures, i.e., the schemas that
+/// can be used as the body of a [DataPoint] or [DataSeries].
+///
+/// A measure only holds the properties defined by its schema. Additional
+/// properties in JSON (which the IEEE 1752.1 and OMH schemas allow) are
+/// ignored when a measure is read from JSON, and are hence not kept.
+///
+/// To add properties of your own, define your own measure in your own
+/// namespace by extending this class, and register it in the
+/// [MeasureFactory] so it can be read as the body of a [DataPoint]:
+///
+/// ```dart
+/// MeasureFactory.register(MyMeasure.SCHEMA_ID, MyMeasure.fromJson);
+/// ```
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class Measure extends Object
-    with AdditionalPropertySupport
-    implements SchemaSupport {
+class Measure implements SchemaSupport {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
       SchemaSupport.OMH_NAMESPACE, SchemaSupport.MEASURE, SchemaVersion.V1_0);
 
@@ -28,21 +38,4 @@ class Measure extends Object
   SchemaId getSchemaId() {
     return SCHEMA_ID;
   }
-}
-
-/// An mixin class for schema classes that support additional properties.
-mixin AdditionalPropertySupport {
-  final Map<String, Object> _additionalProperties = {};
-
-  /// Sets an additional property.
-  void setAdditionalProperty(String path, Object value) {
-    //TODO : In the original OMH Java class it is stated that "This method supports dot-separated paths by creating nested maps when necessary." Is not implemented here.
-    _additionalProperties[path] = value;
-  }
-
-  /// Gets an additional property.
-  Object? getAdditionalProperty(String name) => _additionalProperties[name];
-
-  /// Gets the additional properties.
-  Map<String, Object> getAdditionalProperties() => _additionalProperties;
 }
