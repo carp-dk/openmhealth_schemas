@@ -60,7 +60,7 @@ DataPointHeader _$DataPointHeaderFromJson(Map<String, dynamic> json) =>
     DataPointHeader(
       uuid: json['uuid'] as String,
       schemaId: SchemaId.fromJson(json['schema_id'] as Map<String, dynamic>),
-      sourceCreationDateTime: DateTime.parse(
+      sourceCreationDateTime: const _UtcDateTimeConverter().fromJson(
         json['source_creation_date_time'] as String,
       ),
       modality: json['modality'] as String?,
@@ -78,8 +78,9 @@ Map<String, dynamic> _$DataPointHeaderToJson(DataPointHeader instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'schema_id': instance.schemaId,
-      'source_creation_date_time': instance.sourceCreationDateTime
-          .toIso8601String(),
+      'source_creation_date_time': const _UtcDateTimeConverter().toJson(
+        instance.sourceCreationDateTime,
+      ),
       'modality': ?instance.modality,
       'acquisition_rate': ?instance.acquisitionRate,
       'external_datasheets': ?instance.externalDatasheets,
@@ -228,23 +229,39 @@ TimeFrame _$TimeFrameFromJson(Map<String, dynamic> json) => TimeFrame(
   timeInterval: json['time_interval'] == null
       ? null
       : TimeInterval.fromJson(json['time_interval'] as Map<String, dynamic>),
-  dateTime: json['date_time'] == null
-      ? null
-      : DateTime.parse(json['date_time'] as String),
+  dateTime: _$JsonConverterFromJson<String, DateTime>(
+    json['date_time'],
+    const _UtcDateTimeConverter().fromJson,
+  ),
 );
 
 Map<String, dynamic> _$TimeFrameToJson(TimeFrame instance) => <String, dynamic>{
   'time_interval': ?instance.timeInterval,
-  'date_time': ?instance.dateTime?.toIso8601String(),
+  'date_time': ?_$JsonConverterToJson<String, DateTime>(
+    instance.dateTime,
+    const _UtcDateTimeConverter().toJson,
+  ),
 };
 
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) => json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);
+
 TimeInterval _$TimeIntervalFromJson(Map<String, dynamic> json) => TimeInterval(
-  startDateTime: json['start_date_time'] == null
-      ? null
-      : DateTime.parse(json['start_date_time'] as String),
-  endDateTime: json['end_date_time'] == null
-      ? null
-      : DateTime.parse(json['end_date_time'] as String),
+  startDateTime: _$JsonConverterFromJson<String, DateTime>(
+    json['start_date_time'],
+    const _UtcDateTimeConverter().fromJson,
+  ),
+  endDateTime: _$JsonConverterFromJson<String, DateTime>(
+    json['end_date_time'],
+    const _UtcDateTimeConverter().fromJson,
+  ),
   duration: json['duration'] == null
       ? null
       : DurationUnitValue.fromJson(json['duration'] as Map<String, dynamic>),
@@ -252,8 +269,14 @@ TimeInterval _$TimeIntervalFromJson(Map<String, dynamic> json) => TimeInterval(
 
 Map<String, dynamic> _$TimeIntervalToJson(TimeInterval instance) =>
     <String, dynamic>{
-      'start_date_time': ?instance.startDateTime?.toIso8601String(),
-      'end_date_time': ?instance.endDateTime?.toIso8601String(),
+      'start_date_time': ?_$JsonConverterToJson<String, DateTime>(
+        instance.startDateTime,
+        const _UtcDateTimeConverter().toJson,
+      ),
+      'end_date_time': ?_$JsonConverterToJson<String, DateTime>(
+        instance.endDateTime,
+        const _UtcDateTimeConverter().toJson,
+      ),
       'duration': ?instance.duration,
     };
 
@@ -904,20 +927,28 @@ Map<String, dynamic> _$SurveyToJson(Survey instance) => <String, dynamic>{
 SurveyDeliveryDetails _$SurveyDeliveryDetailsFromJson(
   Map<String, dynamic> json,
 ) => SurveyDeliveryDetails(
-  startDateTime: json['start_date_time'] == null
-      ? null
-      : DateTime.parse(json['start_date_time'] as String),
-  endDateTime: json['end_date_time'] == null
-      ? null
-      : DateTime.parse(json['end_date_time'] as String),
+  startDateTime: _$JsonConverterFromJson<String, DateTime>(
+    json['start_date_time'],
+    const _UtcDateTimeConverter().fromJson,
+  ),
+  endDateTime: _$JsonConverterFromJson<String, DateTime>(
+    json['end_date_time'],
+    const _UtcDateTimeConverter().fromJson,
+  ),
   endStatus: json['end_status'] as String?,
 );
 
 Map<String, dynamic> _$SurveyDeliveryDetailsToJson(
   SurveyDeliveryDetails instance,
 ) => <String, dynamic>{
-  'start_date_time': ?instance.startDateTime?.toIso8601String(),
-  'end_date_time': ?instance.endDateTime?.toIso8601String(),
+  'start_date_time': ?_$JsonConverterToJson<String, DateTime>(
+    instance.startDateTime,
+    const _UtcDateTimeConverter().toJson,
+  ),
+  'end_date_time': ?_$JsonConverterToJson<String, DateTime>(
+    instance.endDateTime,
+    const _UtcDateTimeConverter().toJson,
+  ),
   'end_status': ?instance.endStatus,
 };
 
@@ -926,20 +957,28 @@ SurveyItem _$SurveyItemFromJson(Map<String, dynamic> json) => SurveyItem(
   answers: (json['answers'] as List<dynamic>?)
       ?.map((e) => SurveyAnswer.fromJson(e as Map<String, dynamic>))
       .toList(),
-  askedDateTime: json['asked_date_time'] == null
-      ? null
-      : DateTime.parse(json['asked_date_time'] as String),
-  answeredDateTime: json['answered_date_time'] == null
-      ? null
-      : DateTime.parse(json['answered_date_time'] as String),
+  askedDateTime: _$JsonConverterFromJson<String, DateTime>(
+    json['asked_date_time'],
+    const _UtcDateTimeConverter().fromJson,
+  ),
+  answeredDateTime: _$JsonConverterFromJson<String, DateTime>(
+    json['answered_date_time'],
+    const _UtcDateTimeConverter().fromJson,
+  ),
 );
 
 Map<String, dynamic> _$SurveyItemToJson(SurveyItem instance) =>
     <String, dynamic>{
       'question': instance.question,
       'answers': instance.answers,
-      'asked_date_time': ?instance.askedDateTime?.toIso8601String(),
-      'answered_date_time': ?instance.answeredDateTime?.toIso8601String(),
+      'asked_date_time': ?_$JsonConverterToJson<String, DateTime>(
+        instance.askedDateTime,
+        const _UtcDateTimeConverter().toJson,
+      ),
+      'answered_date_time': ?_$JsonConverterToJson<String, DateTime>(
+        instance.answeredDateTime,
+        const _UtcDateTimeConverter().toJson,
+      ),
     };
 
 SurveyQuestion _$SurveyQuestionFromJson(Map<String, dynamic> json) =>

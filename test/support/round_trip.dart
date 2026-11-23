@@ -186,5 +186,12 @@ List<JsonDifference> jsonDifferences(
 }
 
 /// Parses [value] as a date-time, if it contains both a date and a time.
-DateTime? _dateTime(String value) =>
-    value.contains('T') ? DateTime.tryParse(value) : null;
+/// As defined by IEEE 1752.1, a date-time without a time zone is in UTC.
+DateTime? _dateTime(String value) {
+  if (!value.contains('T')) return null;
+  final hasTimeZone = RegExp(
+    r'(Z|[+-]\d{2}(:?\d{2})?)$',
+    caseSensitive: false,
+  ).hasMatch(value);
+  return DateTime.tryParse(hasTimeZone ? value : '${value}Z');
+}

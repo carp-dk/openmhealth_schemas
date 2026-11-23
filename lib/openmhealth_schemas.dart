@@ -22,6 +22,7 @@ import 'package:uuid/uuid.dart';
 part 'domain/schemas.dart';
 part 'domain/measure.dart';
 part 'domain/factory.dart';
+part 'domain/date_time.dart';
 
 // IEEE 1752.1 schemas
 part 'domain/ieee/metadata.dart';

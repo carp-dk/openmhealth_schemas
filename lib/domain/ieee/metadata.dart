@@ -162,7 +162,11 @@ class DataSeries implements SchemaSupport {
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/header-1.0.json">header</a>
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+@JsonSerializable(
+  fieldRename: FieldRename.snake,
+  includeIfNull: false,
+  converters: [_UtcDateTimeConverter()],
+)
 class DataPointHeader implements SchemaSupport {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,

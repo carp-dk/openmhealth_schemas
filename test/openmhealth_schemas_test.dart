@@ -213,6 +213,82 @@ void main() {
     });
   });
 
+  group('Date-times in JSON', () {
+    test('are written in UTC', () {
+      final local = DateTime(2026, 11, 23, 8, 30);
+      final json =
+          jsonDecode(jsonEncode(TimeFrame(dateTime: local)))
+              as Map<String, dynamic>;
+
+      expect(json['date_time'], endsWith('Z'));
+      expect(
+        DateTime.parse(json['date_time'] as String).isAtSameMomentAs(local),
+        isTrue,
+        reason: 'The UTC date-time must be the same point in time',
+      );
+    });
+
+    test('are read as the same point in time', () {
+      final local = DateTime(2026, 11, 23, 8, 30);
+      final readBack = _roundTrip(
+        TimeFrame(dateTime: local),
+        TimeFrame.fromJson,
+      );
+      expect(readBack.dateTime!.isAtSameMomentAs(local), isTrue);
+    });
+
+    test('without a time zone are read as UTC', () {
+      final timeFrame = TimeFrame.fromJson({
+        'date_time': '2026-11-23T08:30:00',
+      });
+      expect(timeFrame.dateTime, DateTime.utc(2026, 11, 23, 8, 30));
+    });
+
+    test('with a time zone offset are read as that point in time', () {
+      final timeFrame = TimeFrame.fromJson({
+        'date_time': '2026-11-23T09:30:00+01:00',
+      });
+      expect(
+        timeFrame.dateTime!.isAtSameMomentAs(DateTime.utc(2026, 11, 23, 8, 30)),
+        isTrue,
+      );
+    });
+
+    test('are written in UTC in all schemas with date-times', () {
+      final local = DateTime(2026, 11, 23, 8, 30);
+      final dataPoint = DataPoint(
+        body: TotalSleepTime(
+          totalSleepTime: DurationUnitValue(DurationUnit.HOUR, 7),
+          effectiveTimeFrame: TimeFrame(
+            timeInterval: TimeInterval(startDateTime: local, endDateTime: local),
+          ),
+        ),
+        sourceCreationDateTime: local,
+      );
+      final survey = Survey(
+        items: [
+          SurveyItem(
+            question: SurveyQuestion(text: 'How are you?'),
+            askedDateTime: local,
+            answeredDateTime: local,
+          ),
+        ],
+        deliveryDetails: SurveyDeliveryDetails(
+          startDateTime: local,
+          endDateTime: local,
+        ),
+      )..effectiveTimeFrame = TimeFrame(dateTime: local);
+
+      // All 8 date-time properties: the header, time frame, time interval
+      // (2), survey item (2), and survey delivery details (2).
+      final dateTimes = RegExp(
+        r'"\d{4}-\d{2}-\d{2}T[^"]*"',
+      ).allMatches(jsonEncode([dataPoint, survey])).map((m) => m[0]!);
+      expect(dateTimes, hasLength(8));
+      expect(dateTimes, everyElement(endsWith('Z"')));
+    });
+  });
+
   group('Checks when creating objects', () {
     final start = DateTime.utc(2026, 11, 22, 23);
     final end = DateTime.utc(2026, 11, 23, 7);

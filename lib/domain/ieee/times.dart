@@ -5,7 +5,11 @@ part of '../../openmhealth_schemas.dart';
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/time-frame-1.0.json">time-frame</a>
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+@JsonSerializable(
+  fieldRename: FieldRename.snake,
+  includeIfNull: false,
+  converters: [_UtcDateTimeConverter()],
+)
 class TimeFrame implements SchemaSupport {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
@@ -46,7 +50,11 @@ class TimeFrame implements SchemaSupport {
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/time-interval-1.0.json">time-interval</a>
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+@JsonSerializable(
+  fieldRename: FieldRename.snake,
+  includeIfNull: false,
+  converters: [_UtcDateTimeConverter()],
+)
 class TimeInterval implements SchemaSupport {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,

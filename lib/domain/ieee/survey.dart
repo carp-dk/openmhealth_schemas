@@ -39,7 +39,11 @@ class Survey extends Measure {
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-1.0.json">survey</a>
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+@JsonSerializable(
+  fieldRename: FieldRename.snake,
+  includeIfNull: false,
+  converters: [_UtcDateTimeConverter()],
+)
 class SurveyDeliveryDetails {
   /// The date time at which this survey was started.
   DateTime? startDateTime;
@@ -79,7 +83,11 @@ class SurveyEndStatus {
 ///
 /// IEEE 1752.1 version 1.0
 /// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-item-1.0.json">survey-item</a>
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+@JsonSerializable(
+  fieldRename: FieldRename.snake,
+  includeIfNull: false,
+  converters: [_UtcDateTimeConverter()],
+)
 class SurveyItem implements SchemaSupport {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
     SchemaSupport.IEEE_NAMESPACE,
