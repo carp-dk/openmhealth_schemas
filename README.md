@@ -308,11 +308,7 @@ The package is tested with the sample data of the [IEEE 1752](https://opensource
 Each sample is read into its Dart class, converted to JSON again, compared to the sample, and validated against the JSON schema.
 JSON generated from measures created in Dart is validated against the JSON schemas as well.
 
-These tests need network access, and can be skipped using:
-
-```shell
-dart test -x remote
-```
+These tests need network access to run.
 
 ## Features and Bugs
 
