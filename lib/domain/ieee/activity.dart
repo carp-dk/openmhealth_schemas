@@ -1,4 +1,4 @@
-part of '../../ieee.dart';
+part of '../../openmhealth_schemas.dart';
 
 /// This schema represents episode(s) of physical activity.
 ///
@@ -95,6 +95,16 @@ class PhysicalActivity extends Measure {
 
   @override
   SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// Self-reported intensity of a [PhysicalActivity].
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/physical_activity/physical-activity-1.0.json">physical-activity</a>
+class SelfReportedIntensity {
+  static const String LIGHT = 'light';
+  static const String MODERATE = 'moderate';
+  static const String VIGOROUS = 'vigorous';
 }
 
 /// Units for the base movement quantity of a [PhysicalActivity].

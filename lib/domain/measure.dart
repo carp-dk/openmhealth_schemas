@@ -1,4 +1,4 @@
-part of '../../openmhealth_schemas.dart';
+part of '../openmhealth_schemas.dart';
 
 /// A base class for OMH measures that provides an extensible builder for
 /// common properties.

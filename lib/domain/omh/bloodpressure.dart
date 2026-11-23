@@ -15,13 +15,8 @@ class BloodPressure extends Measure {
   DiastolicBloodPressure diastolicBloodPressure;
 
   /// The body posture of the subject during the measurement.
-  /// See [PositionDuringMeasurement].
-  ///
-  /// In OMH 4.0, this is serialized as `body_posture`. For backward
-  /// compatibility, `position_during_measurement` (OMH 1.0) is also accepted
-  /// when reading JSON.
-  @JsonKey(name: 'body_posture', readValue: _readBodyPosture)
-  String? positionDuringMeasurement;
+  /// See [BodyPosture].
+  String? bodyPosture;
 
   /// The location on the body where the measurement was taken.
   /// See [BodyLocation].
@@ -31,14 +26,11 @@ class BloodPressure extends Measure {
   /// See [TemporalRelationshipToPhysicalActivity].
   String? temporalRelationshipToPhysicalActivity;
 
-  static Object? _readBodyPosture(Map<dynamic, dynamic> json, String key) =>
-      json[key] ?? json['position_during_measurement'];
-
   /// Creates a [BloodPressure]. The [systolicBloodPressure] and [diastolicBloodPressure] are required according to the OMH definition.
   BloodPressure({
     required this.systolicBloodPressure,
     required this.diastolicBloodPressure,
-    this.positionDuringMeasurement,
+    this.bodyPosture,
     this.measurementLocation,
     this.temporalRelationshipToPhysicalActivity,
   });
@@ -105,17 +97,4 @@ class BloodPressureUnit extends Unit {
   static const String MM_OF_MERCURY = 'mmHg';
 
   BloodPressureUnit(super.schemaValue);
-}
-
-/// The position (body posture) of a subject during a clinical measurement.
-///
-/// From OMH blood-pressure 4.0, this is the IEEE 1752.1 body posture, which
-/// adds [SEMI_RECUMBENT].
-///
-/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/body-posture-1.0.json">body-posture</a>
-class PositionDuringMeasurement {
-  static const String SITTING = 'sitting';
-  static const String LYING_DOWN = 'lying down';
-  static const String STANDING = 'standing';
-  static const String SEMI_RECUMBENT = 'semi-recumbent';
 }

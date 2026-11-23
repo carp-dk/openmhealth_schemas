@@ -1,4 +1,4 @@
-part of '../../ieee.dart';
+part of '../../openmhealth_schemas.dart';
 
 /// A descriptive statistic of a set of measurements.
 ///

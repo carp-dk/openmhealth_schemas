@@ -1,4 +1,4 @@
-part of '../../ieee.dart';
+part of '../../openmhealth_schemas.dart';
 
 /// An IEEE 1752.1 data point, consisting of a [header] and a [body].
 ///
@@ -201,4 +201,14 @@ class ExternalDatasheet {
   factory ExternalDatasheet.fromJson(Map<String, dynamic> json) =>
       _$ExternalDatasheetFromJson(json);
   Map<String, dynamic> toJson() => _$ExternalDatasheetToJson(this);
+}
+
+/// The modality whereby a measure is obtained, i.e., whether it was sensed by
+/// a device or application, or whether it was reported by a person.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/header-1.0.json">header</a>
+class DataPointModality {
+  static const String SENSED = 'sensed';
+  static const String SELF_REPORTED = 'self-reported';
 }

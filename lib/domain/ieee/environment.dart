@@ -1,4 +1,4 @@
-part of '../../ieee.dart';
+part of '../../openmhealth_schemas.dart';
 
 /// A measurement of ambient light, as a list of light wavelengths and their
 /// intensities describing the composition of the ambient light.

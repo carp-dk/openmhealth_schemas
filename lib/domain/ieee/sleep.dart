@@ -1,4 +1,4 @@
-part of '../../ieee.dart';
+part of '../../openmhealth_schemas.dart';
 
 // All IEEE 1752.1 sleep measures require the effective time frame to be a
 // time interval.

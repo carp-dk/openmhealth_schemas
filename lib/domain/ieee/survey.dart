@@ -1,4 +1,4 @@
-part of '../../ieee.dart';
+part of '../../openmhealth_schemas.dart';
 
 /// This schema represents a survey as a list of at least one survey item
 /// (the combination of a question and the list of provided answers).

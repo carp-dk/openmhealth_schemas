@@ -32,35 +32,34 @@ void main() {
       //Just creating a PhysicalActivity
       var activity = PhysicalActivity(
         activityName: 'Coding OMH schemas',
-        caloriesBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 320.0),
+        effectiveTimeFrame: _interval(DateTime(2016, 5, 5), DateTime(2016, 6, 5)),
+        kcalBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 320.0),
         reportedActivityIntensity: SelfReportedIntensity.LIGHT,
         distance: LengthUnitValue((LengthUnit.METER), 12.0),
+        durationModerateActivity: DurationUnitValue(DurationUnit.MINUTE, 12.3),
       );
       expect(activity.reportedActivityIntensity, 'light');
+      expect(activity.durationModerateActivity!.value, 12.3);
 
       var cal = CaloriesBurned(
         kcalBurned: KcalUnitValue(unit: (KcalUnit.KILOCALORIE), value: 23.2),
       );
       expect(cal.kcalBurned.value, 23.2);
-
-      var mma = MinutesModerateActivity(
-        minutesModerateActivity: DurationUnitValue(DurationUnit.MINUTE, 12.3),
-      );
-      expect(mma.minutesModerateActivity.value, 12.3);
     });
 
     test('- step count', () {
-      // Creating the omh 'with average' example;
-      var steps = StepCount(stepCount: 12000);
-      steps.descriptiveStatistic = DescriptiveStatistic.AVERAGE;
-      steps.descriptiveStatisticDenominator =
-          DescriptiveStatisticDenominator.DAY;
+      // Steps are a physical activity with steps as the base movement quantity
       var start = DateTime(2016, 5, 5);
       var end = DateTime(2016, 6, 5);
-      var time = TimeInterval(startDateTime: start, endDateTime: end);
-      steps.effectiveTimeFrame = TimeFrame(timeInterval: time);
+      var steps = PhysicalActivity(
+        activityName: 'walking',
+        effectiveTimeFrame: _interval(start, end),
+        baseMovementQuantity: UnitValue(BaseMovementUnit.STEPS, 12000),
+        descriptiveStatistic: DescriptiveStatistic.AVERAGE,
+        descriptiveStatisticDenominator: DescriptiveStatisticDenominator.DAY,
+      );
 
-      expect(steps.stepCount, 12000);
+      expect(steps.baseMovementQuantity!.value, 12000);
       expect(steps.effectiveTimeFrame!.dateTime, null);
       expect(steps.effectiveTimeFrame!.timeInterval!.startDateTime, start);
       expect(steps.effectiveTimeFrame!.timeInterval!.endDateTime, end);
@@ -106,12 +105,12 @@ void main() {
           unit: BloodPressureUnit.MM_OF_MERCURY,
           value: 80.0,
         ),
-        positionDuringMeasurement: PositionDuringMeasurement.SITTING,
+        bodyPosture: BodyPosture.SITTING,
       );
 
       expect(bp.diastolicBloodPressure.value, 80);
       expect(bp.systolicBloodPressure.value, 160);
-      expect(bp.positionDuringMeasurement, 'sitting');
+      expect(bp.bodyPosture, 'sitting');
     });
 
     test('- heart rate', () {
@@ -154,24 +153,23 @@ void main() {
         // Activity measures
         PhysicalActivity(
           activityName: 'walking',
-          caloriesBurned: KcalUnitValue(
-            unit: KcalUnit.KILOCALORIE,
-            value: 320.0,
+          effectiveTimeFrame: _interval(
+            DateTime(2016, 5, 5, 8),
+            DateTime(2016, 5, 5, 9),
           ),
+          kcalBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 320.0),
           reportedActivityIntensity: SelfReportedIntensity.LIGHT,
           distance: LengthUnitValue((LengthUnit.METER), 12.0),
         ),
 
-        StepCount(stepCount: 12000)
-          ..descriptiveStatistic = DescriptiveStatistic.AVERAGE
-          ..descriptiveStatisticDenominator =
-              DescriptiveStatisticDenominator.DAY
-          ..effectiveTimeFrame = TimeFrame(
-            timeInterval: TimeInterval(
-              startDateTime: DateTime(2016, 5, 5),
-              endDateTime: DateTime(2016, 6, 5),
-            ),
-          ),
+        // Steps as a physical activity
+        PhysicalActivity(
+          activityName: 'walking',
+          effectiveTimeFrame: _interval(DateTime(2016, 5, 5), DateTime(2016, 6, 5)),
+          baseMovementQuantity: UnitValue(BaseMovementUnit.STEPS, 12000),
+          descriptiveStatistic: DescriptiveStatistic.AVERAGE,
+          descriptiveStatisticDenominator: DescriptiveStatisticDenominator.DAY,
+        ),
 
         CaloriesBurned(
           activityName: 'running',
@@ -179,8 +177,14 @@ void main() {
           descriptiveStatisticDenominator: 'session',
         ),
 
-        MinutesModerateActivity(
-          minutesModerateActivity: DurationUnitValue(
+        // Minutes of moderate activity as a physical activity
+        PhysicalActivity(
+          activityName: 'cycling',
+          effectiveTimeFrame: _interval(
+            DateTime(2016, 5, 5, 8),
+            DateTime(2016, 5, 5, 9),
+          ),
+          durationModerateActivity: DurationUnitValue(
             (DurationUnit.MINUTE),
             12.3,
           ),
@@ -196,7 +200,7 @@ void main() {
             unit: BloodPressureUnit.MM_OF_MERCURY,
             value: 80.0,
           ),
-          positionDuringMeasurement: PositionDuringMeasurement.SITTING,
+          bodyPosture: BodyPosture.SITTING,
         ),
 
         // Cardio measures
@@ -239,9 +243,9 @@ void main() {
 
       measuresDecoded.add(Acceleration.fromJson(measuresEncoded[0]));
       measuresDecoded.add(PhysicalActivity.fromJson(measuresEncoded[1]));
-      measuresDecoded.add(StepCount.fromJson(measuresEncoded[2]));
+      measuresDecoded.add(PhysicalActivity.fromJson(measuresEncoded[2]));
       measuresDecoded.add(CaloriesBurned.fromJson(measuresEncoded[3]));
-      measuresDecoded.add(MinutesModerateActivity.fromJson(measuresEncoded[4]));
+      measuresDecoded.add(PhysicalActivity.fromJson(measuresEncoded[4]));
       measuresDecoded.add(BloodPressure.fromJson(measuresEncoded[5]));
       measuresDecoded.add(HeartRate.fromJson(measuresEncoded[6]));
       measuresDecoded.add(RrInterval.fromJson(measuresEncoded[7]));
@@ -265,7 +269,7 @@ void main() {
           unit: BloodPressureUnit.MM_OF_MERCURY,
           value: 80.0,
         ),
-        positionDuringMeasurement: PositionDuringMeasurement.SITTING,
+        bodyPosture: BodyPosture.SITTING,
       );
 
       print('\nBloodPressure:\n${_encode(bp_1)}');
@@ -286,25 +290,28 @@ void main() {
 
       print('Geoposition:\n${_encode(position)}');
 
+      var start = DateTime(2016, 5, 5);
+      var end = DateTime(2016, 6, 5);
+
       var activity = PhysicalActivity(
         activityName: 'walking',
-        caloriesBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 320.0),
+        effectiveTimeFrame: _interval(start, end),
+        kcalBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 320.0),
         reportedActivityIntensity: SelfReportedIntensity.LIGHT,
         distance: LengthUnitValue((LengthUnit.METER), 12.0),
       );
 
       print('\nPhysicalActivity:\n${_encode(activity)}');
 
-      var steps = StepCount(stepCount: 12000);
-      steps.descriptiveStatistic = DescriptiveStatistic.AVERAGE;
-      steps.descriptiveStatisticDenominator =
-          DescriptiveStatisticDenominator.DAY;
-      var start = DateTime(2016, 5, 5);
-      var end = DateTime(2016, 6, 5);
-      var time = TimeInterval(startDateTime: start, endDateTime: end);
-      steps.effectiveTimeFrame = TimeFrame(timeInterval: time);
+      var steps = PhysicalActivity(
+        activityName: 'walking',
+        effectiveTimeFrame: _interval(start, end),
+        baseMovementQuantity: UnitValue(BaseMovementUnit.STEPS, 12000),
+        descriptiveStatistic: DescriptiveStatistic.AVERAGE,
+        descriptiveStatisticDenominator: DescriptiveStatisticDenominator.DAY,
+      );
 
-      print('\nStepCount:\n${_encode(steps)}');
+      print('\nSteps:\n${_encode(steps)}');
 
       var cal = CaloriesBurned(
         kcalBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 23.2),
@@ -312,11 +319,13 @@ void main() {
 
       print('CaloriesBurned:\n${_encode(cal)}');
 
-      var mma = MinutesModerateActivity(
-        minutesModerateActivity: DurationUnitValue((DurationUnit.MINUTE), 12.3),
+      var mma = PhysicalActivity(
+        activityName: 'cycling',
+        effectiveTimeFrame: _interval(start, end),
+        durationModerateActivity: DurationUnitValue((DurationUnit.MINUTE), 12.3),
       );
 
-      print('MinutesModerateActivity\n${_encode(mma)}');
+      print('Minutes of moderate activity\n${_encode(mma)}');
     });
 
     test(' - DataPoint serialization', () {
@@ -329,7 +338,7 @@ void main() {
           unit: BloodPressureUnit.MM_OF_MERCURY,
           value: 80.0,
         ),
-        positionDuringMeasurement: PositionDuringMeasurement.SITTING,
+        bodyPosture: BodyPosture.SITTING,
       );
 
       var dp_1 = DataPoint(body: bp);
@@ -350,11 +359,14 @@ void main() {
 
       var dp_2 = DataPoint(
         body: position,
-        userId: 'bardram',
-        provenance: DataPointAcquisitionProvenance(
-          sourceName: 'Android Nexus Phone',
-          modality: DataPointModality.SENSED,
-        ),
+        modality: DataPointModality.SENSED,
+        acquisitionRate: FrequencyUnitValue.hertz(1),
+        externalDatasheets: [
+          ExternalDatasheet(
+            datasheetType: 'hardware',
+            datasheetReference: 'Android Nexus Phone',
+          ),
+        ],
       );
 
       print('\nDataPoint_Geoposition:\n${_encode(dp_2)}');
@@ -370,7 +382,7 @@ void main() {
           unit: BloodPressureUnit.MM_OF_MERCURY,
           value: 80.0,
         ),
-        positionDuringMeasurement: PositionDuringMeasurement.SITTING,
+        bodyPosture: BodyPosture.SITTING,
       );
 
       var dp_1 = DataPoint(body: bp);
@@ -434,7 +446,7 @@ void main() {
           unit: BloodPressureUnit.MM_OF_MERCURY,
           value: 80.0,
         ),
-        positionDuringMeasurement: PositionDuringMeasurement.SITTING,
+        bodyPosture: BodyPosture.SITTING,
       );
 
       final bp_1_json = _encode(bp_1);
@@ -446,12 +458,14 @@ void main() {
 
       var act_1 = PhysicalActivity(
         activityName: 'walking',
-        caloriesBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 320.0),
+        effectiveTimeFrame: _interval(
+          DateTime.now().subtract(const Duration(hours: 1)),
+          DateTime.now(),
+        ),
+        kcalBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 320.0),
         reportedActivityIntensity: SelfReportedIntensity.LIGHT,
         distance: LengthUnitValue((LengthUnit.METER), 12.0),
       );
-
-      act_1.effectiveTimeFrame = TimeFrame(dateTime: DateTime.now());
 
       final act_1_json = _encode(act_1);
       print('\nPhysicalActivity:\n${_encode(act_1)}');
@@ -471,13 +485,15 @@ void main() {
       );
       expect(_encode(cal_2), equals(cal_1_json));
 
-      var mma_1 = MinutesModerateActivity(
-        minutesModerateActivity: DurationUnitValue((DurationUnit.MINUTE), 12.3),
+      var mma_1 = PhysicalActivity(
+        activityName: 'cycling',
+        effectiveTimeFrame: _interval(DateTime(2016, 5, 5), DateTime(2016, 6, 5)),
+        durationModerateActivity: DurationUnitValue((DurationUnit.MINUTE), 12.3),
       );
 
       final mma_1_json = _encode(mma_1);
-      print('\nMinutesModerateActivity\n${_encode(mma_1)}');
-      final mma_2 = MinutesModerateActivity.fromJson(
+      print('\nMinutes of moderate activity\n${_encode(mma_1)}');
+      final mma_2 = PhysicalActivity.fromJson(
         json.decode(mma_1_json) as Map<String, dynamic>,
       );
       expect(_encode(mma_2), equals(mma_1_json));
@@ -525,3 +541,8 @@ void main() {
 /// Converts [object] to a formatted JSON [String].
 String _encode(Object object) =>
     const JsonEncoder.withIndent(' ').convert(object);
+
+/// A [TimeFrame] with a time interval from [start] to [end].
+TimeFrame _interval(DateTime start, DateTime end) => TimeFrame(
+  timeInterval: TimeInterval(startDateTime: start, endDateTime: end),
+);

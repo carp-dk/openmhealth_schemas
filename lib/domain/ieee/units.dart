@@ -1,4 +1,141 @@
-part of '../../ieee.dart';
+part of '../../openmhealth_schemas.dart';
+
+/// A marker interface for units of measure.
+abstract class Unit extends SchemaEnumValue {
+  Unit(super.schemaValue);
+}
+
+/// A numerical value with a unit of measure. This is the base class for all
+/// unit value tuples.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/unit-value-1.0.json">unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class UnitValue extends Object
+    with AdditionalPropertySupport
+    implements SchemaSupport {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  final double value;
+  final String unit;
+
+  UnitValue(this.unit, this.value);
+
+  factory UnitValue.fromJson(Map<String, dynamic> json) =>
+      _$UnitValueFromJson(json);
+  Map<String, dynamic> toJson() => _$UnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+
+  @override
+  String toString() => '${getSchemaId()} : {unit: $unit , value: $value}';
+}
+
+/// A length or a distance. See [LengthUnit].
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/length-unit-value-1.0.json">length-unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class LengthUnitValue extends UnitValue {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'length-unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  LengthUnitValue(super.unit, super.value);
+
+  factory LengthUnitValue.fromJson(Map<String, dynamic> json) =>
+      _$LengthUnitValueFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$LengthUnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// A unit of length.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/length-unit-value-1.0.json">length-unit-value</a>
+class LengthUnit extends Unit {
+  static const String FEMTOMETER = 'fm';
+  static const String PICOMETER = 'pm';
+  static const String NANOMETER = 'nm';
+  static const String MICROMETER = 'um';
+  static const String MILLIMETER = 'mm';
+  static const String CENTIMETER = 'cm';
+  static const String METER = 'm';
+  static const String KILOMETER = 'km';
+  static const String INCH = 'in';
+  static const String FOOT = 'ft';
+  static const String YARD = 'yd';
+  static const String MILE = 'mi';
+
+  LengthUnit(super.schemaValue);
+}
+
+/// A duration or length of time. See [DurationUnit].
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/duration-unit-value-1.0.json">duration-unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class DurationUnitValue extends UnitValue {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'duration-unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  DurationUnitValue(super.unit, super.value);
+
+  factory DurationUnitValue.fromJson(Map<String, dynamic> json) =>
+      _$DurationUnitValueFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$DurationUnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// An amount of kilocalories. See [KcalUnit].
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/kcal-unit-value-1.0.json">kcal-unit-value</a>
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+class KcalUnitValue extends UnitValue {
+  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'kcal-unit-value',
+    SchemaVersion.V1_0,
+  );
+
+  KcalUnitValue({required String unit, required double value})
+    : super(unit, value);
+
+  factory KcalUnitValue.fromJson(Map<String, dynamic> json) =>
+      _$KcalUnitValueFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$KcalUnitValueToJson(this);
+
+  @override
+  SchemaId getSchemaId() => SCHEMA_ID;
+}
+
+/// A unit of kilocalories.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/utility/kcal-unit-value-1.0.json">kcal-unit-value</a>
+class KcalUnit extends Unit {
+  static const String KILOCALORIE = 'kcal';
+
+  KcalUnit(super.schemaValue);
+}
 
 /// A unit of duration.
 ///

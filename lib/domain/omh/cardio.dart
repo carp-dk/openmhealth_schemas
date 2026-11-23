@@ -72,7 +72,7 @@ class RrInterval extends Measure {
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class HeartRateUnitValue extends UnitValue {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
-    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.IEEE_NAMESPACE,
     'unit-value',
     SchemaVersion.V1_0,
   );
@@ -97,7 +97,7 @@ class HeartRateUnitValue extends UnitValue {
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class RrInterUnitValue extends UnitValue {
   static SchemaId SCHEMA_ID = SchemaId.withVersion(
-    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.IEEE_NAMESPACE,
     'duration-unit-value',
     SchemaVersion.V1_0,
   );

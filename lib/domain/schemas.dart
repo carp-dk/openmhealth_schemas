@@ -1,6 +1,6 @@
-part of '../../openmhealth_schemas.dart';
+part of '../openmhealth_schemas.dart';
 
-/// An abstract class represent any OMH schema.
+/// An abstract class represent any IEEE 1752.1 or OMH schema.
 abstract class SchemaSupport {
   static const String OMH_NAMESPACE = 'omh';
   static const String IEEE_NAMESPACE = 'ieee';
@@ -24,9 +24,7 @@ abstract class SchemaSupport {
   static const String TIME_FRAME = 'time-frame';
   static const String TIME_INTERVAL = 'time-interval';
   static const String UNITS = 'units';
-  static const String STEP_COUNT = 'step-count';
   static const String CALORIES = 'calories-burned';
-  static const String MINUTES_MODERATE_ACTIVITY = 'minutes-moderate-activity';
 
   /// The schema this class corresponds to
   SchemaId getSchemaId();
@@ -44,38 +42,27 @@ abstract class SchemaEnumValue {
 /// a single, immutable schema. The namespace is used to avoid naming collisions in schemas written by different groups
 /// or organisations.
 ///
-/// OMH version 1.1
-/// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_schema-id">schema-id</a>
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/schema-id-1.0.json">schema-id</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class SchemaId extends Object implements SchemaSupport, Comparable<SchemaId> {
   static final SchemaId SCHEMA_ID = SchemaId.withVersion(
-    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.IEEE_NAMESPACE,
     'schema-id',
-    SchemaVersion.V1_1,
+    SchemaVersion.V1_0,
   );
 
   final String namespace;
   final String name;
   final String version;
 
-  /// An optional URL of the schema (OMH 1.1).
-  final String? url;
-
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final SchemaVersion schemaVersion;
 
-  SchemaId({
-    required this.namespace,
-    required this.name,
-    required this.version,
-    this.url,
-  }) : schemaVersion = SchemaVersion.fromString(version);
-  SchemaId.withVersion(
-    this.namespace,
-    this.name,
-    this.schemaVersion, {
-    this.url,
-  }) : version = schemaVersion.toString();
+  SchemaId({required this.namespace, required this.name, required this.version})
+    : schemaVersion = SchemaVersion.fromString(version);
+  SchemaId.withVersion(this.namespace, this.name, this.schemaVersion)
+    : version = schemaVersion.toString();
 
   factory SchemaId.fromJson(Map<String, dynamic> json) =>
       _$SchemaIdFromJson(json);
