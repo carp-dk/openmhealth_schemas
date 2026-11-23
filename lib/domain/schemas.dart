@@ -1,9 +1,10 @@
-part of '../../openmhealth_schemas.dart';
+part of '../openmhealth_schemas.dart';
 
-/// An abstract class represent any OMH schema.
+/// An abstract class represent any IEEE 1752.1 or OMH schema.
 abstract class SchemaSupport {
   static const String OMH_NAMESPACE = 'omh';
-  static const String CACHET_NAMESPACE = 'cachet';
+  static const String IEEE_NAMESPACE = 'ieee';
+  static const String CARP_NAMESPACE = 'carp';
 
   static const String ACCELERATION = 'acceleration';
   static const String ACTIVITY = 'physical-activity';
@@ -23,9 +24,7 @@ abstract class SchemaSupport {
   static const String TIME_FRAME = 'time-frame';
   static const String TIME_INTERVAL = 'time-interval';
   static const String UNITS = 'units';
-  static const String STEP_COUNT = 'step-count';
   static const String CALORIES = 'calories-burned';
-  static const String MINUTES_MODERATE_ACTIVITY = 'minutes-moderate-activity';
 
   /// The schema this class corresponds to
   SchemaId getSchemaId();
@@ -43,33 +42,53 @@ abstract class SchemaEnumValue {
 /// a single, immutable schema. The namespace is used to avoid naming collisions in schemas written by different groups
 /// or organisations.
 ///
-/// Version 1.0
-/// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_schema-id">schema-id</a>
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class SchemaId extends Object implements SchemaSupport, Comparable<SchemaId> {
-  static final SchemaId SCHEMA_ID = SchemaId.withVersion(
-      SchemaSupport.OMH_NAMESPACE,
-      'schema-id',
-      SchemaVersion(major: 1, minor: 0));
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/metadata/schema-id-1.0.json">schema-id</a>
+class SchemaId implements SchemaSupport, Comparable<SchemaId> {
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.IEEE_NAMESPACE,
+    'schema-id',
+    SchemaVersion.V1_0,
+  );
 
+  /// The namespace of the schema, e.g. `ieee` or `omh`.
   final String namespace;
-  final String name;
-  final String version;
 
-  @JsonKey(ignore: true)
+  /// The name of the schema, e.g. `heart-rate`.
+  final String name;
+
+  /// The version of the schema.
   final SchemaVersion schemaVersion;
 
+  /// The version as given when this schema id was created from a string.
+  final String? _version;
+
+  /// Creates a schema id with the [version] as a string, e.g. `1.0`.
   SchemaId({
     required this.namespace,
     required this.name,
-    required this.version,
-  }) : schemaVersion = SchemaVersion.fromString(version);
-  SchemaId.withVersion(this.namespace, this.name, this.schemaVersion)
-      : version = schemaVersion.toString();
+    required String version,
+  }) : schemaVersion = SchemaVersion.fromString(version),
+       _version = version;
 
-  factory SchemaId.fromJson(Map<String, dynamic> json) =>
-      _$SchemaIdFromJson(json);
-  Map<String, dynamic> toJson() => _$SchemaIdToJson(this);
+  /// Creates a schema id with the [schemaVersion].
+  const SchemaId.withVersion(this.namespace, this.name, this.schemaVersion)
+    : _version = null;
+
+  /// The version of the schema as a string, e.g. `1.0`.
+  String get version => _version ?? schemaVersion.toString();
+
+  factory SchemaId.fromJson(Map<String, dynamic> json) => SchemaId(
+    namespace: json['namespace'] as String,
+    name: json['name'] as String,
+    version: json['version'] as String,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'namespace': namespace,
+    'name': name,
+    'version': version,
+  };
 
   @override
   int compareTo(SchemaId other) {
@@ -96,27 +115,30 @@ class SchemaVersion implements Comparable<SchemaVersion> {
   //static const String VERSION_PATTERN_STRING = "(\\d+)\\.(\\d+)(?:\\.(" + QUALIFIER_PATTERN_STRING + "))?";
   //final Pattern VERSION_PATTERN = Pattern.compile(VERSION_PATTERN_STRING);
 
-  static SchemaVersion V1_0 = SchemaVersion(major: 1, minor: 0);
-  static SchemaVersion V2_0 = SchemaVersion(major: 2, minor: 0);
+  static const SchemaVersion V1_0 = SchemaVersion(major: 1, minor: 0);
+  static const SchemaVersion V1_1 = SchemaVersion(major: 1, minor: 1);
+  static const SchemaVersion V1_2 = SchemaVersion(major: 1, minor: 2);
+  static const SchemaVersion V2_0 = SchemaVersion(major: 2, minor: 0);
+  static const SchemaVersion V3_0 = SchemaVersion(major: 3, minor: 0);
+  static const SchemaVersion V4_0 = SchemaVersion(major: 4, minor: 0);
 
-  int major = 1;
-  int minor = 0;
-  String? qualifier;
+  final int major;
+  final int minor;
+  final String? qualifier;
 
   //TODO : should check if this is a valid version - see original OMH Java implementation.
-  SchemaVersion({
-    this.major = 1,
-    this.minor = 0,
-    this.qualifier,
-  });
+  const SchemaVersion({this.major = 1, this.minor = 0, this.qualifier});
 
-  factory SchemaVersion.v10() => SchemaVersion(major: 1, minor: 0);
+  factory SchemaVersion.v10() => V1_0;
 
-  SchemaVersion.fromString(String version) {
-    var l = version.split('.');
-    major = l.isNotEmpty ? int.parse(l[0]) : 1;
-    minor = l.length > 1 ? int.parse(l[1]) : 0;
-    if (l.length > 2) qualifier = l[2];
+  /// Creates a version from a string such as `1.0` or `1.0.RC1`.
+  factory SchemaVersion.fromString(String version) {
+    final parts = version.split('.');
+    return SchemaVersion(
+      major: parts.isNotEmpty ? int.parse(parts[0]) : 1,
+      minor: parts.length > 1 ? int.parse(parts[1]) : 0,
+      qualifier: parts.length > 2 ? parts[2] : null,
+    );
   }
 
   factory SchemaVersion.fromJson(Map<String, dynamic> json) =>
@@ -142,7 +164,8 @@ class SchemaVersion implements Comparable<SchemaVersion> {
     if (major > other.major) return 1;
     if (minor < other.minor) return -1;
     if (minor > other.minor) return 1;
-    if (qualifier == null) return 0;
+    if (qualifier == null && other.qualifier == null) return 0;
+    // A version with a qualifier (a pre-release) comes before the release.
     if (qualifier != null && other.qualifier == null) return -1;
     if (qualifier == null && other.qualifier != null) return 1;
 

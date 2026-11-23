@@ -2,12 +2,15 @@ part of '../../openmhealth_schemas.dart';
 
 /// A geographic position measurement.
 ///
-/// OMH version 1.0
+/// OMH version 2.0
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_geoposition">geoposition</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class Geoposition extends Measure {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      SchemaSupport.GEOPOSITION, SchemaVersion.V1_0);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    SchemaSupport.GEOPOSITION,
+    SchemaVersion.V2_0,
+  );
 
   PlaneAngleUnitValue latitude;
   PlaneAngleUnitValue longitude;
@@ -16,7 +19,10 @@ class Geoposition extends Measure {
   LengthUnitValue? elevation;
   int? numberOfSatellitesInView;
   int? numberOfSatellitesInFix;
-  //List<TypedUnitValue<SignalToNoiseRatioUnit>> satelliteSignalStrengths;
+
+  /// The signal strengths of the satellites, in [SignalToNoiseRatioUnit.DECIBEL].
+  List<UnitValue>? satelliteSignalStrengths;
+
   String? positioningSystem;
 
   /// Creates a [Geoposition]. The [latitude] and [longitude] are required according to the OMH definition.
@@ -26,6 +32,7 @@ class Geoposition extends Measure {
     this.elevation,
     this.numberOfSatellitesInView,
     this.numberOfSatellitesInFix,
+    this.satelliteSignalStrengths,
     this.positioningSystem,
   });
 
@@ -41,17 +48,18 @@ class Geoposition extends Measure {
 
 /// A base class for unit value tuples.
 ///
-/// OMH version 1.0
+/// OMH version 1.1
 /// See <a href="http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_plane-angle-unit-value">plane-angle-unit-value</a>
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class PlaneAngleUnitValue extends UnitValue {
-  static SchemaId SCHEMA_ID = SchemaId.withVersion(SchemaSupport.OMH_NAMESPACE,
-      'plane-angle-unit-value', SchemaVersion.V1_0);
+  static const SchemaId SCHEMA_ID = SchemaId.withVersion(
+    SchemaSupport.OMH_NAMESPACE,
+    'plane-angle-unit-value',
+    SchemaVersion.V1_1,
+  );
 
-  PlaneAngleUnitValue({
-    required String unit,
-    required double value,
-  }) : super(unit, value);
+  PlaneAngleUnitValue({required String unit, required double value})
+    : super(unit, value);
 
   factory PlaneAngleUnitValue.fromJson(Map<String, dynamic> json) =>
       _$PlaneAngleUnitValueFromJson(json);

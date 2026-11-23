@@ -1,0 +1,8 @@
+# Tests tagged 'remote' load schemas and test data directly from the IEEE 1752
+# and Open mHealth repositories, and hence need network access.
+# Skip them with:
+#
+#   dart test -x remote
+tags:
+  remote:
+    timeout: 2x

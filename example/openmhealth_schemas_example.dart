@@ -1,67 +1,58 @@
-import 'package:openmhealth_schemas/openmhealth_schemas.dart';
 import 'dart:convert';
 
+import 'package:openmhealth_schemas/openmhealth_schemas.dart';
+
 void main() {
-  // Creating a [BloodPressure] similar to the one shown at
-  // http://www.openmhealth.org/documentation/#/schema-docs/schema-library/schemas/omh_blood-pressure
-
-  BloodPressure bp = BloodPressure(
-      systolicBloodPressure: SystolicBloodPressure(
-          unit: BloodPressureUnit.MM_OF_MERCURY, value: 160.0),
-      diastolicBloodPressure: DiastolicBloodPressure(
-          unit: BloodPressureUnit.MM_OF_MERCURY, value: 80.0),
-      positionDuringMeasurement: PositionDuringMeasurement.SITTING);
-
-  DateTime start = DateTime(2016, 2, 5);
-  DateTime end = DateTime(2016, 6, 5);
-  TimeInterval time = TimeInterval(startDateTime: start, endDateTime: end);
-  bp.effectiveTimeFrame = TimeFrame(timeInterval: time);
-  bp.descriptiveStatistic = DescriptiveStatistic.MAXIMUM;
-
-  // Now convert this to JSON
-  final bp_json = _encode(bp);
-  print("\nBloodPressure:\n$bp_json");
-
-  // Similarly - create a [Geoposition] object, convert it to JSON and print it.
-  Geoposition position = Geoposition(
-      longitude: PlaneAngleUnitValue(
-          unit: PlaneAngleUnit.DEGREE_OF_ARC, value: 40.059692382),
-      latitude: PlaneAngleUnitValue(
-          unit: PlaneAngleUnit.DEGREE_OF_ARC, value: -105.21440124511719),
-      elevation: LengthUnitValue((LengthUnit.METER), 1548.5));
-
-  position.positioningSystem = PositioningSystem.GPS;
-  position.effectiveTimeFrame = TimeFrame(dateTime: DateTime.now());
-  print("\nGeoposition:\n${_encode(position)}");
-
-  //Creating OMH data point ready to be uploaded to an OMH sever
-
-  //First, the data point for the blood pressure measure.
-  DataPoint dp_1 = DataPoint(body: bp);
-  print("\nDataPoint_BloodPressure:\n${_encode(dp_1)}");
-
-  // Then the data point for the geo position measure.
-  DataPoint dp_2 = DataPoint(
-    body: position,
-    userId: "bardram",
-    provenance: DataPointAcquisitionProvenance(
-        sourceName: "Android Nexus Phone", modality: DataPointModality.SENSED),
+  // Create an IEEE 1752.1 physical activity measure.
+  final walk = PhysicalActivity(
+    activityName: 'walking',
+    effectiveTimeFrame: TimeFrame(
+      timeInterval: TimeInterval(
+        startDateTime: DateTime.utc(2026, 11, 23, 8, 0),
+        endDateTime: DateTime.utc(2026, 11, 23, 8, 45),
+      ),
+    ),
+    baseMovementQuantity: UnitValue(BaseMovementUnit.STEPS, 5400),
+    distance: LengthUnitValue(LengthUnit.KILOMETER, 4.2),
+    kcalBurned: KcalUnitValue(unit: KcalUnit.KILOCALORIE, value: 210),
+    reportedActivityIntensity: SelfReportedIntensity.MODERATE,
   );
+  print('PhysicalActivity:\n${toJsonString(walk)}');
 
-  print("\nDataPoint_Geoposition:\n${_encode(dp_2)}");
+  // Create an OMH heart rate measure.
+  final heartRate =
+      HeartRate(
+          heartRate: HeartRateUnitValue(
+            unit: HeartRateUnit.BEATS_PER_MINUTE,
+            value: 62,
+          ),
+          temporalRelationshipToPhysicalActivity:
+              TemporalRelationshipToPhysicalActivity.AT_REST,
+        )
+        ..effectiveTimeFrame = TimeFrame(
+          dateTime: DateTime.utc(2026, 11, 23, 7, 30),
+        );
+  print('\nHeartRate:\n${toJsonString(heartRate)}');
 
-  //Finally, read a JSON string and convert it into a Flutter object.
-  final act_1 =
-      PhysicalActivity.fromJson(json.decode(omh_pa) as Map<String, dynamic>);
+  // Put the heart rate measure in an IEEE 1752.1 data point.
+  final dataPoint = DataPoint(
+    body: heartRate,
+    modality: DataPointModality.SENSED,
+  );
+  print('\nDataPoint:\n${toJsonString(dataPoint)}');
 
+  // Read the data point back from JSON. The body is created as a HeartRate,
+  // based on the schema id in the header.
+  final readBack = DataPoint.fromJson(
+    json.decode(json.encode(dataPoint)) as Map<String, dynamic>,
+  );
+  final body = readBack.body as HeartRate;
   print(
-      "\nA person has been ${act_1.activityName} ${act_1.distance?.value} ${act_1.distance?.unit}");
+    '\nRead back a ${body.runtimeType} of ${body.heartRate.value} '
+    '${body.heartRate.unit}',
+  );
 }
 
-String _encode(Object object) =>
-    const JsonEncoder.withIndent(' ').convert(object);
-
-// The following data is various OMH JSON examples from the OMH website.
-// Testing if we can load these.
-const String omh_pa =
-    '{    "activity_name": "walking", "distance": { "value": 3.1, "unit": "mi" }, "effective_time_frame": { "time_interval": { "start_date_time": "2015-02-06T06:25:00Z", "end_date_time": "2015-02-06T07:25:00Z" } },"kcal_burned": {"value": 160,"unit": "kcal"},"met_value": 3.5}';
+/// Converts [object] to a formatted JSON string.
+String toJsonString(Object object) =>
+    const JsonEncoder.withIndent('  ').convert(object);
