@@ -1,8 +1,19 @@
 # Open mHealth Schemas for Dart
 
-[![pub package](https://img.shields.io/pub/v/openmhealth_schemas.svg)](https://pub.dev/packages/openmhealth_schemas)
+<p>
+  <a href="https://carp.dk"><img align="right" width="166" height="70" src="images/carp-x-dtu-logo.svg" alt="CARP x DTU"></a>
+  <a href="https://pub.dev/packages/openmhealth_schemas"><img src="https://img.shields.io/pub/v/openmhealth_schemas?logo=dart&amp;logoColor=white&amp;label=pub&amp;color=0175C2" alt="pub version"></a>
+  <a href="https://pub.dev/packages/openmhealth_schemas/score"><img src="https://img.shields.io/pub/points/openmhealth_schemas" alt="pub points"></a>
+  <a href="https://pub.dev/packages/openmhealth_schemas/score"><img src="https://img.shields.io/pub/likes/openmhealth_schemas" alt="pub likes"></a>
+  <a href="https://pub.dev/packages/openmhealth_schemas"><img src="https://img.shields.io/badge/platform-dart%20%7C%20flutter-lightgrey" alt="Dart and Flutter"></a>
+  <br>
+  <a href="#ieee-17521-schemas"><img src="https://img.shields.io/badge/IEEE-1752.1-00629B" alt="IEEE 1752.1"></a>
+  <a href="#omh-schemas"><img src="https://img.shields.io/badge/Open%20mHealth-schemas-orange" alt="Open mHealth schemas"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/carp-dk/openmhealth_schemas?color=blue" alt="License: MIT"></a>
+  <br clear="right">
+</p>
 
-A Dart implementation of the [IEEE 1752.1](https://opensource.ieee.org/omh/1752) standard for mobile health data, and of the [Open mHealth](https://github.com/openmhealth/schemas) (OMH) schemas which are not (yet) part of this standard.
+A Dart implementation of the [IEEE 1752.1](https://opensource.ieee.org/omh/1752) standard for mobile health data, and of the [Open mHealth](https://github.com/openmhealth/schemas) (OMH) schemas which are not (yet) part of this standard, made by the [Copenhagen Research Platform (CARP)](https://carp.dk) at the [Technical University of Denmark (DTU)](https://dtu.dk).
 
 IEEE 1752.1 standardizes the core of Open mHealth, i.e., the data point and header used to exchange health data, the utility schemas (unit values, time frames, etc.), and the schemas for physical activity, sleep, environment, and surveys.
 The OMH schemas for other measures, such as heart rate and blood pressure, are still maintained by Open mHealth.

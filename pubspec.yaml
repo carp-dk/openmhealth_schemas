@@ -2,6 +2,8 @@ name: openmhealth_schemas
 description: A Dart implementation of the IEEE 1752.1 Open mHealth schemas and the Open mHealth (OMH) schemas for mobile health (mHealth) data.
 version: 0.3.1
 homepage: https://github.com/carp-dk/openmhealth_schemas
+repository: https://github.com/carp-dk/openmhealth_schemas
+issue_tracker: https://github.com/carp-dk/openmhealth_schemas/issues
 
 environment:
   sdk: ">=3.8.0 <4.0.0"
