@@ -18,7 +18,6 @@ part 'domain/omh/geoposition.dart';
 part 'domain/omh/measure.dart';
 part 'domain/omh/schemas.dart';
 part 'domain/omh/statistics.dart';
-part 'domain/omh/survey.dart';
 part 'domain/omh/times.dart';
 part 'domain/omh/units.dart';
 

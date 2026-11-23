@@ -59,6 +59,21 @@ class SurveyDeliveryDetails {
   Map<String, dynamic> toJson() => _$SurveyDeliveryDetailsToJson(this);
 }
 
+/// The way a [Survey] was ended by the participant.
+///
+/// IEEE 1752.1 version 1.0
+/// See <a href="https://opensource.ieee.org/omh/1752/-/blob/main/schemas/survey/survey-1.0.json">survey</a>
+class SurveyEndStatus {
+  /// Some answers were provided.
+  static const String ABANDONED = 'abandoned';
+
+  /// The survey was completed.
+  static const String COMPLETED = 'completed';
+
+  /// No answers were provided.
+  static const String MISSED = 'missed';
+}
+
 /// This schema represents a survey item, i.e., the combination of a question
 /// and the list of its answers.
 ///

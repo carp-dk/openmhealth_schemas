@@ -28,18 +28,7 @@ import 'openmhealth_schemas.dart'
         PhysicalActivity,
         DescriptiveStatistic,
         DescriptiveStatisticDenominator,
-        DurationUnit,
-        Survey,
-        SurveyItem,
-        SurveyQuestion,
-        AbstractSurveyAnswer,
-        SurveyAnswer,
-        SurveyCategoricalAnswer,
-        SurveyDateAnswer,
-        SurveyTimeAnswer,
-        SurveyUnitValueAnswer,
-        SurveyDeliveryDetails,
-        SurveyScore;
+        DurationUnit;
 
 // Schemas which are identical in OMH and IEEE 1752.1.
 export 'openmhealth_schemas.dart'
@@ -60,8 +49,7 @@ export 'openmhealth_schemas.dart'
         DurationUnitValue,
         KcalUnit,
         KcalUnitValue,
-        SelfReportedIntensity,
-        SurveyEndStatus;
+        SelfReportedIntensity;
 
 part 'domain/ieee/metadata.dart';
 part 'domain/ieee/activity.dart';
