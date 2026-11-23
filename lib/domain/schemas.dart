@@ -4,7 +4,7 @@ part of '../openmhealth_schemas.dart';
 abstract class SchemaSupport {
   static const String OMH_NAMESPACE = 'omh';
   static const String IEEE_NAMESPACE = 'ieee';
-  static const String CACHET_NAMESPACE = 'cachet';
+  static const String CARP_NAMESPACE = 'carp';
 
   static const String ACCELERATION = 'acceleration';
   static const String ACTIVITY = 'physical-activity';
